@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  user_service:
+    image: tanjd/user_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/user_service
+    command:
+      - sh
+      - -c
+      - "python user.py"
