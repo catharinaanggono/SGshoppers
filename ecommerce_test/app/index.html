@@ -22,30 +22,58 @@
 <body>
     <div id="app" class="container">
         <h1>Hello World</h1>
-        <ul v-for="name in names">
-            <li>{{name}}</li>
+        <ul v-for="user in users">
+            <li>{{user.name}}</li>
         </ul>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <script src="assets/js/stylish-portfolio.js"></script>
+    <!-- <script src="assets/js/stylish-portfolio.js"></script> -->
     <!-- Custom JavaScript -->
-    <script src="assets/js/home.js"></script>
+    <!-- <script src="assets/js/home.js"></script> -->
 
 </body>
 <script>
+    USER_HOST = "http://localhost:5000"
     new Vue({
         el: "#app",
         data: {
-            names: ["jeddy", "ashley", "kenneth"],
+            users: [],
+            error: "",
+            displayNames: false
         },
         mounted() {
             this.init();
         },
         methods: {
             init() {
+                this.getUsers();
+            },
+            async getUsers() {
+                try {
+                    url = USER_HOST + "/users";
+                    const response = await axios.get(url);
+                    const status = response.data.status;
+                    if (status == "error") {
+                        this.error = response.data.message;
+                        return;
+                    }
+                    this.users = response.data.data;
+                    console.log(this.users)
+                    this.displayNames = true;
+                } catch (error) {
+                    if (error.response) {
+                        this.error = error.response.data.message;
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log("Error", error.message);
+                    }
+                    return;
+                }
+                return;
             }
         },
     });

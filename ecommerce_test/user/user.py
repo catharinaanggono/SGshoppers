@@ -1,28 +1,35 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
-# from datetime import datetime
-# from sqlalchemy.sql import func
-from os import environ
-
-# import csv
-# import sys
-
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/student_db'
-
-# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///user_db.db"
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-db = SQLAlchemy(app)
 CORS(app)
 
 
 @app.route("/")
-def home():
-    return "Hello World"
+def test():
+    response = make_response(
+        jsonify({"status": "success", "message": "user service is working"}),
+        200,
+    )
+    response.headers["Content-Type"] = "application/json"
+    return response
+
+
+@app.route("/users")
+def users():
+    users = [
+        {"name": "John", "school": "SCIS"},
+        {"name": "Jane", "school": "SCIS"},
+        {"name": "Richard ", "school": "SCIS"},
+    ]
+    response = make_response(
+        jsonify({"status": "success", "data": users}),
+        200,
+    )
+    # response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers["Content-Type"] = "application/json"
+    return response
 
 
 if __name__ == "__main__":

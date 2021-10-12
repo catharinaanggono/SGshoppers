@@ -9,7 +9,34 @@ services:
       - 5000:5000
     volumes:
       - .:/user_service
+    depends_on:
+      - user_db
+    links:
+      - user_db:db
     command:
       - sh
       - -c
       - "python user.py"
+
+  user_db:
+    image: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    command: -p 5432
+
+volumes:
+  db-data:
