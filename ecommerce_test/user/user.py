@@ -27,7 +27,7 @@ def users():
         jsonify({"status": "success", "data": users}),
         200,
     )
-    # response.headers.add("Access-Control-Allow-Origin", "*")
+
     response.headers["Content-Type"] = "application/json"
     return response
 
