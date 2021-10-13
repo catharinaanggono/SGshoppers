@@ -9,7 +9,7 @@ CORS(app)
 @app.route("/")
 def test():
     response = make_response(
-        jsonify({"status": "success", "message": "user service is working"}),
+        jsonify({"status": "success", "message": "User Service is working"}),
         200,
     )
     response.headers["Content-Type"] = "application/json"
@@ -33,4 +33,4 @@ def users():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
