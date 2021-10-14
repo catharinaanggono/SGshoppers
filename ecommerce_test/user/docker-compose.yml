@@ -13,10 +13,10 @@ services:
       - user_db
     links:
       - user_db:db
-    command:
-      - sh
-      - -c
-      - "python user.py"
+    # command:
+    #   - sh
+    #   - -c
+    #   - "python user.py"
 
   user_db:
     image: postgres
