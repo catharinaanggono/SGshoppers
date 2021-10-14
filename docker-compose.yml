@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  user_service:
+    image: tanjd/user_service
+    ports:
+      - 5000:5000
+    command:
+      - sh
+      - -c
+      - "python user.py"
