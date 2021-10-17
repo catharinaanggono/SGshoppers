@@ -18,11 +18,6 @@ services:
 
   user_db:
     image: postgres
-    healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root"]
-      timeout: 45s
-      interval: 10s
-      retries: 10
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
