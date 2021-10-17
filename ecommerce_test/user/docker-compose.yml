@@ -13,10 +13,8 @@ services:
       - user_db
     links:
       - user_db:db
-    # command:
-    #   - sh
-    #   - -c
-    #   - "python user.py"
+    environment:
+      - dbURL=postgresql://postgres:postgres@user_db:5432/postgres
 
   user_db:
     image: postgres
