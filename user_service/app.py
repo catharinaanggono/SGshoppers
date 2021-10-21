@@ -21,6 +21,7 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
     name = db.Column(db.String(120), nullable=False)
     role = db.Column(db.String(120), nullable=False)
+    points = db.Column(db.Integer, default=0, nullable=False)
     created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
 
     def json(self):
@@ -29,6 +30,7 @@ class User(db.Model):
             "email": self.email,
             "name": self.name,
             "role": self.role,
+            "points": self.points,
             "created_at": self.created_at,
         }
 
@@ -98,6 +100,54 @@ def list_users():
         jsonify({"status": "success", "data": users}),
         200,
     )
+
+    response.headers["Content-Type"] = "application/json"
+    return response
+
+
+@app.route(url_route + "/user/<user_id>/points", methods=["GET"])
+def get_user_points(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    points = user.points
+    if user:
+        response = make_response(
+            jsonify({"status": "success", "data": {"points": points}}),
+            200,
+        )
+    else:
+        response = make_response(
+            jsonify({"status": "fail", "message": "User does not exist"}),
+            200,
+        )
+
+    response.headers["Content-Type"] = "application/json"
+    return response
+
+
+@app.route(url_route + "/user/<user_id>/points", methods=["PATCH"])
+def update_user_points(user_id):
+    json_data = request.get_json()
+    points = json_data["points"]
+
+    user = User.query.filter_by(id=user_id).first()
+    user.points = points
+
+    try:
+        db.session.commit()
+        response = make_response(
+            jsonify({"status": "success", "data": {"user": user.json()}}),
+            200,
+        )
+    except:
+        db.session.rollback()
+        response = make_response(
+            jsonify(
+                {"status": "fail", "message": "An error occurred when updating points."}
+            ),
+            400,
+        )
+    finally:
+        db.session.close()
 
     response.headers["Content-Type"] = "application/json"
     return response
