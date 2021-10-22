@@ -70,7 +70,6 @@ def get_product_by_id(product_id):
 @app.route(url_route + "/product_search/<keyword>")
 def get_product_by_name(keyword):
     print(keyword)
-    # products = Product.query.filter(Product.name.contains(product_name))
     products = Product.query.filter(Product.name.ilike(f'%{keyword}%'))
     print("PRODUCTS - ", products)
 
