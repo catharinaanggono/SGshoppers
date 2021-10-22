@@ -49,6 +49,32 @@ def test():
     return response
 
 
+@app.route(url_route + "/product")
+def get_all_products():
+    products = Product.query.all()
+    print(products)
+    if products:
+        response = make_response(
+            jsonify(
+                {
+                    "status": "success",
+                    "data": {
+                        "products": [product.json() for product in products]
+                        }
+                }
+            ),
+            200,
+        )
+    else:
+        response = make_response(
+            jsonify({"status": "fail", "message": "No product"}),
+            404,
+        )
+
+    response.headers["Content-Type"] = "application/json"
+    return response
+
+
 @app.route(url_route + "/product/<product_id>")
 def get_product_by_id(product_id):
     product = Product.query.filter_by(id=product_id).first()
@@ -78,7 +104,9 @@ def get_product_by_name(keyword):
             jsonify(
                 {
                     "status": "success",
-                    "products": [product.json() for product in products]
+                    "data": {
+                        "products": [product.json() for product in products]
+                        }
                 }
             ),
             200,
