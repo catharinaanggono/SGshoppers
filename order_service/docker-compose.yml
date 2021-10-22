@@ -1,22 +1,22 @@
 version: "3.8"
 services:
-  orders_service:
-    image: tanjd/orders_service
+  order_service:
+    image: tanjd/order_service
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - 5003:5003
     volumes:
-      - .:/orders_service
+      - .:/order_service
     depends_on:
-      - orders_db
+      - order_db
     links:
-      - orders_db:db
+      - order_db:db
     environment:
-      - dbURL=postgresql://postgres:postgres@orders_db:5435/postgres
+      - dbURL=postgresql://postgres:postgres@order_db:5435/postgres
 
-  orders_db:
+  order_db:
     image: postgres
     volumes:
       - db-data:/var/lib/postgresql/data
