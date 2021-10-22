@@ -14,90 +14,156 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 CORS(app)
 
+# -> POST order 
+# -> PATCH delivery status
+# -> GET by OrderID
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-    name = db.Column(db.String(120), nullable=False)
-    role = db.Column(db.String(120), nullable=False)
+class Order_invoice(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    total_amount = db.Column(db.Integer, nullable=False)
+    customer_id = db.Column(db.Integer, nullable=False)
+    delivery_status = db.Column(db.String(200), nullable=False)
+
+    Orders = db.relationship('Order', backref='orders', lazy=True)
+
+    def json(self):
+        return {
+            "id": self.id, 
+            "customer_id": self.customer_id, 
+            "total_amount": self.total_amount,
+            "deliver_status": self.customer_id
+        }
+
+
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    invoice_id = db.Column(db.Integer, db.ForeignKey(
+        'order_invoice.id'), nullable=False)
+    customer_id = db.Column(db.Integer, nullable=False)
+    product_id = db.Column(db.String(120), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float(6, 2), nullable=False)
     created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
 
     def json(self):
         return {
-            "id": self.id,
-            "email": self.email,
-            "name": self.name,
-            "role": self.role,
-            "created_at": self.created_at,
+            "id": self.id, 
+            "invoice_id": self.invoice_id, 
+            "customer_id": self.customer_id, 
+            "product_id": self.product_id, 
+            "quantity": self.quantity, 
+            "price": self.price,
+            "created_at": self.created_at
         }
-
-
+                
 url_route = "/api"
 
 
 @app.route("/")
 def test():
     response = make_response(
-        jsonify({"status": "success", "message": "User Service is working"}),
+        jsonify({"status": "success", "message": "ORDER Service is working"}),
         200,
     )
     response.headers["Content-Type"] = "application/json"
     return response
 
 
-@app.route(url_route + "/user/authenticate", methods=["POST"])
-def authenticate():
-    user_json = request.get_json()
-    email = user_json["email"]
-    password = user_json["password"]
-    user = User.query.filter_by(email=email).first()
-    if user:
-        if password == user.password:
-            response = make_response(
-                jsonify({"status": "success", "data": {"user": user.json()}}),
-                200,
-            )
-        else:
-            response = make_response(
-                jsonify({"status": "fail", "message": "Invalid Password"}),
-                401,
-            )
+@app.route(url_route + "/create_order", methods=["POST"])
+def create_order():
+    order_data = request.get_json()
+
+    cart = order_data['cart']
+    customer_id = order_data['id']
+    total_cost = order_data['total_cost']
+
+    #total_cost calculated in FE, pass over
+        # total = 0
+        # for c_list in cart:
+        #     product_price = c_list['unit_price']
+        #     total += product_price
+
+    new_order_invoice = Order_invoice(
+        customer_id=customer_id, total_amount=total_cost, delivery_status="pending")
+
+    try:
+        db.session.add(new_order_invoice)
+        db.session.commit()
+        invoice_id = new_order_invoice.id
+        
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred creating order invoice."})
+
+    for c_list in cart:
+        price = c_list['unit_price']
+        product_id = c_list['id']
+        quantity = c_list['quantity']
+        try:
+            new_order = Order(invoice_id=invoice_id, customer_id=customer_id,
+                              product_id=product_id, quantity=quantity, price=price)
+            db.session.add(new_order)
+            db.session.commit()
+        except:
+            return jsonify({"status": "fail",
+                            "message": "An error occurred creating order."})
+
+
+    return jsonify({"status": "success"})
+
+
+# -> GET by OrderID
+@app.route(url_route + '/get_invoice/', methods=['GET'])
+def get_invoice():
+    invoice_id = request.args.get('invoice_id')
+    invoice = Order_invoice.query.filter_by(id=invoice_id).first()
+    if invoice:
+        return_message = ({"status": "success",
+                           "invoice": invoice.json()})
     else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
+
+
+#not sure if we need
+    # @app.route(url_route + "/get_all_orders/", methods=['GET'])
+    # def get_all_orders():
+    #     invoice_id = request.args.get('invoice_id')
+    #     order = [order.json()
+    #              for order in Order.query.filter_by(invoice_id=invoice_id).all()]
+    #     if order:
+    #         return_message = ({"status": "success",
+    #                            "order": order})
+    #     else:
+    #         return_message = ({"status": "fail"})
+    #     return jsonify(return_message)
+
+
+# -> PATCH delivery status
+@app.route(url_route + "/delivery_status", methods=["PATCH"])
+def update_delivery_status(delivery_id):
+    json_data = request.get_json()
+    delivery_id = json_data["delivery_id"]
+
+    order = Order.query.filter_by(id=delivery_id).first()
+    order.delivery_status = "delivered"
+
+    try:
+        db.session.commit()
         response = make_response(
-            jsonify({"status": "fail", "message": "Invalid Email"}),
-            401,
-        )
-
-    response.headers["Content-Type"] = "application/json"
-    return response
-
-
-@app.route(url_route + "/user/<user_id>")
-def get_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
-    if user:
-        response = make_response(
-            jsonify({"status": "success", "data": {"user": user.json()}}),
+            jsonify({"status": "success", "data": {"user": order.json()}}),
             200,
         )
-    else:
+    except:
+        db.session.rollback()
         response = make_response(
-            jsonify({"status": "fail", "message": "User does not exist"}),
-            200,
+            jsonify(
+                {"status": "fail", "message": "An error occurred when updating points."}
+            ),
+            400,
         )
-
-    response.headers["Content-Type"] = "application/json"
-    return response
-
-
-@app.route(url_route + "/users")
-def list_users():
-    users = {"users": [User.json() for User in User.query.all()]}
-    response = make_response(
-        jsonify({"status": "success", "data": users}),
-        200,
-    )
+    finally:
+        db.session.close()
 
     response.headers["Content-Type"] = "application/json"
     return response
