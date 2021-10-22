@@ -15,21 +15,24 @@ migrate = Migrate(app, db)
 CORS(app)
 
 
-class User(db.Model):
+class Product(db.Model):
+    __tablename__ = "product"
+
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-    name = db.Column(db.String(120), nullable=False)
-    role = db.Column(db.String(120), nullable=False)
-    created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
+    name = db.Column(db.String(60), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    image = db.Column(db.Text, nullable=False)
 
     def json(self):
         return {
             "id": self.id,
-            "email": self.email,
             "name": self.name,
-            "role": self.role,
-            "created_at": self.created_at,
+            "description": self.description,
+            "price": self.price,
+            "stock": self.stock,
+            "image": self.image
         }
 
 
@@ -39,65 +42,53 @@ url_route = "/api"
 @app.route("/")
 def test():
     response = make_response(
-        jsonify({"status": "success", "message": "User Service is working"}),
+        jsonify({"status": "success", "message": "Product Service is working"}),
         200,
     )
     response.headers["Content-Type"] = "application/json"
     return response
 
 
-@app.route(url_route + "/user/authenticate", methods=["POST"])
-def authenticate():
-    user_json = request.get_json()
-    email = user_json["email"]
-    password = user_json["password"]
-    user = User.query.filter_by(email=email).first()
-    if user:
-        if password == user.password:
-            response = make_response(
-                jsonify({"status": "success", "data": {"user": user.json()}}),
-                200,
-            )
-        else:
-            response = make_response(
-                jsonify({"status": "fail", "message": "Invalid Password"}),
-                401,
-            )
+@app.route(url_route + "/product/<product_id>")
+def get_product_by_id(product_id):
+    product = Product.query.filter_by(id=product_id).first()
+    if product:
+        response = make_response(
+            jsonify({"status": "success", "data": {"product": product.json()}}),
+            200,
+        )
     else:
         response = make_response(
-            jsonify({"status": "fail", "message": "Invalid Email"}),
-            401,
+            jsonify({"status": "fail", "message": "Fail to retrive product"}),
+            404,
         )
 
     response.headers["Content-Type"] = "application/json"
     return response
 
 
-@app.route(url_route + "/user/<user_id>")
-def get_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
-    if user:
+@app.route(url_route + "/product_search/<keyword>")
+def get_product_by_name(keyword):
+    print(keyword)
+    # products = Product.query.filter(Product.name.contains(product_name))
+    products = Product.query.filter(Product.name.ilike(f'%{keyword}%'))
+    print("PRODUCTS - ", products)
+
+    if products:
         response = make_response(
-            jsonify({"status": "success", "data": {"user": user.json()}}),
+            jsonify(
+                {
+                    "status": "success",
+                    "products": [product.json() for product in products]
+                }
+            ),
             200,
         )
     else:
         response = make_response(
-            jsonify({"status": "fail", "message": "User does not exist"}),
-            200,
+            jsonify({"status": "fail", "message": "No product with this keyword found"}),
+            404,
         )
-
-    response.headers["Content-Type"] = "application/json"
-    return response
-
-
-@app.route(url_route + "/users")
-def list_users():
-    users = {"users": [User.json() for User in User.query.all()]}
-    response = make_response(
-        jsonify({"status": "success", "data": users}),
-        200,
-    )
 
     response.headers["Content-Type"] = "application/json"
     return response
