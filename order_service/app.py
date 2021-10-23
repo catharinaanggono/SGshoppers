@@ -6,6 +6,8 @@ from sqlalchemy.sql import func
 from flask_migrate import Migrate
 from flask_cors import CORS
 
+from datetime import datetime
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("dbURL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -30,6 +32,15 @@ class Order(db.Model):
     price = db.Column(db.Float(6, 2), nullable=False)
     created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
 
+    def __init__(self, id, invoice_id, customer_id, product_id, quantity, price, created_at):
+        self.id = id
+        self.invoice_id = invoice_id
+        self.customer_id = customer_id
+        self.product_id = product_id
+        self.quantity = quantity
+        self.price = price
+        self.created_at = created_at
+
     def json(self):
         return {
             "id": self.id,
@@ -50,12 +61,18 @@ class Order_invoice(db.Model):
 
     Orders = db.relationship("Order", backref="orders", lazy=True)
 
+    def __init__(self, id, total_amount, customer_id, delivery_status):
+        self.id = id
+        self.total_amount = total_amount
+        self.customer_id = customer_id
+        self.delivery_status = delivery_status
+
     def json(self):
         return {
             "id": self.id,
             "customer_id": self.customer_id,
             "total_amount": self.total_amount,
-            "deliver_status": self.customer_id,
+            "delivery_status": self.delivery_status,
         }
 
 
@@ -72,104 +89,120 @@ def test():
     return response
 
 
-@app.route("/create_order", methods=["POST"])
+@app.route(url_route + "/create_order", methods=["POST"])
 def create_order():
     order_data = request.get_json()
 
     cart = order_data["cart"]
-    customer_id = order_data["id"]
-    total_cost = order_data["total_cost"]
+    customer_id = order_data["customer_id"]
+    total_amount = order_data["total_amount"]
 
     # total_cost calculated in FE, pass over
     # total = 0
     # for c_list in cart:
     #     product_price = c_list['unit_price']
     #     total += product_price
-
-    new_order_invoice = Order_invoice(
-        customer_id=customer_id, total_amount=total_cost, delivery_status="pending"
-    )
+    invoice = Order_invoice(None, customer_id, total_amount, "Pending")
 
     try:
-        db.session.add(new_order_invoice)
+        db.session.add(invoice)
         db.session.commit()
-        invoice_id = new_order_invoice.id
-
+        invoice_id = invoice.id
     except:
         return jsonify(
-            {"status": "fail", "message": "An error occurred creating order invoice."}
+            {
+                "status": "fail",
+                "message": "An error occurred when creating order invoice."
+            }
         )
 
-    for c_list in cart:
-        price = c_list["unit_price"]
-        product_id = c_list["id"]
-        quantity = c_list["quantity"]
+    for item in cart:
+        order = Order(
+            None, invoice_id, customer_id, item["id"],
+            item["quantity"], item["price"], datetime.now()
+        )
         try:
-            new_order = Order(
-                invoice_id=invoice_id,
-                customer_id=customer_id,
-                product_id=product_id,
-                quantity=quantity,
-                price=price,
-            )
-            db.session.add(new_order)
+            db.session.add(order)
             db.session.commit()
         except:
             return jsonify(
-                {"status": "fail", "message": "An error occurred creating order."}
+                {
+                    "status": "fail",
+                    "message": "An error occurred when creating order"
+                }
             )
 
-    return jsonify({"status": "success"})
+    return jsonify(
+        {
+            "status": "success",
+            "message": invoice.json()
+        }
+    )
 
 
-# -> GET by OrderID
-@app.route("/get_invoice/", methods=["GET"])
-def get_invoice():
-    invoice_id = request.args.get("invoice_id")
-    invoice = Order_invoice.query.filter_by(id=invoice_id).first()
+@app.route(url_route + "/invoice/<int:id>", methods=["GET"])
+def get_invoice(id):
+    invoice = Order_invoice.query.filter_by(id=id).first()
     if invoice:
-        return_message = {"status": "success", "invoice": invoice.json()}
-    else:
-        return_message = {"status": "fail"}
-    return jsonify(return_message)
+        return jsonify(
+            {
+                "status": "success",
+                "data": invoice.json()
+            }
+        )
+    return jsonify(
+        {
+            "status": "fail",
+            "message": "Invoice not found."
+        }
+    )
 
 
-# not sure if we need
-# @app.route(url_route + "/get_all_orders/", methods=['GET'])
-# def get_all_orders():
-#     invoice_id = request.args.get('invoice_id')
-#     order = [order.json()
-#              for order in Order.query.filter_by(invoice_id=invoice_id).all()]
-#     if order:
-#         return_message = ({"status": "success",
-#                            "order": order})
-#     else:
-#         return_message = ({"status": "fail"})
-#     return jsonify(return_message)
+@app.route(url_route + "/invoices/<int:customer_id>", methods=['GET'])
+def get_all_invoices(customer_id):
+    invoices = Order_invoice.query.filter_by(customer_id=customer_id).all()
+    if len(invoices):
+        return jsonify(
+            {
+                "status": "success",
+                "data": {
+                    "invoices": [invoice.json() for invoice in invoices]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "status": "fail",
+            "message": "There are no invoices."
+        }
+    )
 
 
 # -> PATCH delivery status
-@app.route("/delivery_status", methods=["PATCH"])
-def update_delivery_status(delivery_id):
-    json_data = request.get_json()
-    delivery_id = json_data["delivery_id"]
-
-    order = Order.query.filter_by(id=delivery_id).first()
-    order.delivery_status = "delivered"
+@app.route(url_route + "/invoice/<int:id>/delivery_status", methods=["PATCH"])
+def update_delivery_status(id):
+    invoice = Order_invoice.query.filter_by(id=id).first()
+    invoice.delivery_status = "delivered"
 
     try:
         db.session.commit()
         response = make_response(
-            jsonify({"status": "success", "data": {"user": order.json()}}),
-            200,
+            jsonify(
+                {
+                    "status": "success",
+                    "data": invoice.json()
+                }
+            )
         )
     except:
         db.session.rollback()
         response = make_response(
             jsonify(
-                {"status": "fail", "message": "An error occurred when updating points."}
-            ),
-            400,
+                {
+                    "status": "fail",
+                    "message": "An error occurred when updating delivery status"
+                }
+            )
         )
     finally:
         db.session.close()
