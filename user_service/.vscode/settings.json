@@ -8,5 +8,6 @@
     "python.autoComplete.addBrackets": true,
     "python.linting.flake8Args": [
         "--max-line-length=99"
-    ]
+    ],
+    "python.analysis.completeFunctionParens": true
 }
