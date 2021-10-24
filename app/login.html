@@ -115,7 +115,7 @@
                         email: this.email,
                         password: this.password
                     }
-                    // create post request
+
                     const response = await axios.post(url, loginData);
 
                     const status = response.data.status;
