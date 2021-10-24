@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  rewards_service:
+    image: tanjd/rewards_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5002:5002
+    volumes:
+      - .:/rewards_service
+    depends_on:
+      - rewards_db
+    links:
+      - rewards_db:db
+    environment:
+      - dbURL=postgresql://postgres:postgres@rewards_db:5434/postgres
+
+  rewards_db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - "5434"
+    ports:
+      - "5434:5434"
+    command: -p 5434
+
+volumes:
+  db-data:

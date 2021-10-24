@@ -1,0 +1,13 @@
+Flask==2.0.2
+Flask-Cors==3.0.10
+Flask-SQLAlchemy==2.5.1
+Flask-Migrate==3.1.0
+Flask-Login
+psycopg2-binary==2.8.6
+Jinja2==3.0.2
+requests==2.26.0
+simplejson==3.17.5
+SQLAlchemy==1.4.22
+autopep8==1.5.4
+flake8==3.9.2
+black==21.9b0
