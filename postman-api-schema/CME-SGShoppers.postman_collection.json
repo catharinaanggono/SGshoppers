@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "fbf7cfb0-2ec4-408e-a45f-d38773326c24",
+		"_postman_id": "529dd67b-6b8b-4b89-8f22-160e1227ac49",
 		"name": "CME-SGShoppers",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -127,6 +127,104 @@
 								"user",
 								"1",
 								"points"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order-service",
+			"item": [
+				{
+					"name": "CreateOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cart\": [{\"price\": 2, \"id\": \"1\", \"quantity\": 10}],\r\n    \"customer_id\" : 1,\r\n    \"total_amount\": 112\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5003/api/create_order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"api",
+								"create_order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetInvoice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5003/api/invoice/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"api",
+								"invoice",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListInvoices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5003/api/invoices/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"api",
+								"invoices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDeliveryStatus",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5003/api/invoice/1/delivery_status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5003",
+							"path": [
+								"api",
+								"invoice",
+								"1",
+								"delivery_status"
 							]
 						}
 					},
