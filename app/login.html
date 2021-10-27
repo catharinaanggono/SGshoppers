@@ -131,6 +131,9 @@
                     if (user.role == "customer") {
                         window.location.href = "index.html";
                         return;
+                    } else if (user.role == "delivery") {
+                        window.location.href = "delivery-index.html";
+                        return;
                     }
                     window.location.href = "admin-index.html";
                     return;

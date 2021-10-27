@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login V16</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="./login_assets/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <!-- VueJS & Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="./js/autoload.js"></script>
+    <!--===============================================================================================-->
+</head>
+
+<body>
+
+    <div class="limiter">
+        <div id="app" class="container-login100" style="background-image: url('./login_assets/images/bg-01.jpg');">
+        </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="./login_assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="./login_assets/vendor/bootstrap/js/popper.js"></script>
+    <script src="./login_assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+
+        },
+        mounted() {
+            this.init();
+        },
+        methods: {
+            init() {
+                // if cookie exist log out else redirect to login
+                var name = getCookie("name")
+                if (name != "") {
+                    deleteAllCookies();
+                    window.location.href = "index.html";
+                    return;
+                }
+                window.location.href = "login.html";
+
+            },
+        },
+    });
+</script>
+
+</html>

@@ -53,3 +53,14 @@ function listCookies() {
 function getURL() {
   alert("The URL of this page is: " + window.location.href);
 }
+
+function deleteAllCookies() {
+  var allCookies = document.cookie.split(";");
+
+  for (let c of allCookies) {
+    document.cookie =
+      c +
+      "=;expires=Thu, 01 Jan 1970 00:00:01 GMT" +
+      ("/" ? "; path=" + "/" : "");
+  }
+}
