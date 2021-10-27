@@ -1,2 +1,3 @@
-1,jane@hotmail.com,password,jane doe,customer, 2021-10-22 08:21:36.175627+07,0
-2,john@hotmail.com,password,john doe,admin, 2021-10-22 08:21:36.175627+07,0
+1,jane@hotmail.com,password,Jane doe,customer, 2021-10-22 08:21:36.175627+07,0
+2,john@hotmail.com,password,John doe,admin, 2021-10-22 08:21:36.175627+07,0
+3,richard@hotmail.com,password,Richard doe,delivery, 2021-10-22 08:21:36.175627+07,0
