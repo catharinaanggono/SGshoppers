@@ -280,8 +280,8 @@
                             <li>Subtotal <span>$ 169.50</span></li>
                             <li>Total <span>$ 169.50</span></li>
                         </ul>
-                        <button type="button" @click="createOrder">
-                            Confirm Order
+                        <button type="button" @click="updateStatus">
+                            Update
                         </button>
                     </div>
                 </div>
@@ -381,7 +381,7 @@
     <script src="js/main.js"></script>
 
     <script>
-            new Vue({
+        new Vue({
         el: "#app",
         data: {
             cart: [{"id": 1, "quantity": 10, "price": 2}],
@@ -392,6 +392,7 @@
         },
         mounted() {
             this.init();
+            this.createOrder();
         },
         methods: {
             init() {
@@ -399,14 +400,9 @@
             },
             async createOrder() {
                 try {
-                    url = "http://localhost:5003/api/create_order";
-                    orderData = {
-                        cart: this.cart,
-                        customer_id: this.customer_id,
-                        total_amount: this.total_amount
-                    }
+                    url = "http://localhost:5003/api/invoices";
 
-                    const response = await axios.post(url, orderData);
+                    const response = await axios.get(url);
 
                     const status = response.data.status;
                     if (status == "error") {
@@ -415,7 +411,34 @@
                         console.log(response.data.message);
                         return;
                     }
-                    
+                    console.log(response.data);
+
+                } catch (error) {
+                    if (error.response) {
+                        this.displayError = true
+                        this.errorMessage = error.response.data.message;
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log("Error", error.message);
+                    }
+                    return;
+                }
+            },
+            async updateStatus(){
+                try {
+                    url = "http://localhost:5003/api/invoice/77/delivery_status";
+
+                    const response = await axios.patch(url);
+
+                    const status = response.data.status;
+                    if (status == "error") {
+                        // this.displayError = true
+                        // this.errorMessage = response.data.message;
+                        console.log(response.data.message);
+                        return;
+                    }
+                    console.log(response.data);
 
                 } catch (error) {
                     if (error.response) {

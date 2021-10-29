@@ -28,15 +28,17 @@ class Order(db.Model):
     )
     customer_id = db.Column(db.Integer, nullable=False)
     product_id = db.Column(db.String(120), nullable=False)
+    product_name = db.Column(db.String(120), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float(6, 2), nullable=False)
     created_at = db.Column(db.DateTime, server_default=func.now(), nullable=False)
 
-    def __init__(self, id, invoice_id, customer_id, product_id, quantity, price, created_at):
+    def __init__(self, id, invoice_id, customer_id, product_id, product_name, quantity, price, created_at):
         self.id = id
         self.invoice_id = invoice_id
         self.customer_id = customer_id
         self.product_id = product_id
+        self.product_name = product_name
         self.quantity = quantity
         self.price = price
         self.created_at = created_at
@@ -47,6 +49,7 @@ class Order(db.Model):
             "invoice_id": self.invoice_id,
             "customer_id": self.customer_id,
             "product_id": self.product_id,
+            "product_name": self.product_id,
             "quantity": self.quantity,
             "price": self.price,
             "created_at": self.created_at,
@@ -102,7 +105,7 @@ def create_order():
     # for c_list in cart:
     #     product_price = c_list['unit_price']
     #     total += product_price
-    invoice = Order_invoice(None, customer_id, total_amount, "Pending")
+    invoice = Order_invoice(None, total_amount, customer_id, "Pending")
 
     try:
         db.session.add(invoice)
@@ -159,8 +162,28 @@ def get_invoice(id):
 
 
 @app.route(url_route + "/invoices/<int:customer_id>", methods=['GET'])
-def get_all_invoices(customer_id):
+def get_customer_invoices(customer_id):
     invoices = Order_invoice.query.filter_by(customer_id=customer_id).all()
+    if len(invoices):
+        return jsonify(
+            {
+                "status": "success",
+                "data": {
+                    "invoices": [invoice.json() for invoice in invoices]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "status": "fail",
+            "message": "There are no invoices."
+        }
+    )
+
+
+@app.route(url_route + "/invoices", methods=['GET'])
+def get_all_invoices():
+    invoices = Order_invoice.query.all()
     if len(invoices):
         return jsonify(
             {
