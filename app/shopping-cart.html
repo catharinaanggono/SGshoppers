@@ -201,7 +201,7 @@
                             <li>Subtotal <span>$ 169.50</span></li>
                             <li>Total <span>$ 169.50</span></li>
                         </ul>
-                        <a href="" class="primary-btn" @click="createOrder">Place Order</a>
+                        <a class="primary-btn" @click="CreateOrder">Place Order</a>
                     </div>
                 </div>
             </div>
@@ -309,14 +309,7 @@
             errorMessage: "",
             displayError: false
         },
-        mounted() {
-            this.init();
-            getTotalAmount();
-        },
         methods: {
-            init() {
-
-            },
             async createOrder() {
                 try {
                     url = ORDER_HOST + "/api/create_order";
@@ -348,11 +341,13 @@
                 }
             },
             getTotalAmount(){
-                for(item in cart){
-                    totalAmount += item.price
+                for(item of this.cart){
+                    this.total_amount += item.price 
                 }
             }
         },
+        mounted() {
+        }
     });
     </script>
 </body>
