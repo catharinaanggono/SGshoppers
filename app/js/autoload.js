@@ -1,5 +1,6 @@
 const HOST = "http://localhost";
 const USER_HOST = HOST + ":5000";
+const PRODUCT_HOST = HOST + ":5001";
 
 // Function to create the cookie
 function createCookie(name, value, days) {
