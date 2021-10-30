@@ -194,8 +194,8 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-6 col-sm-6" v-for="product in products_list">
                                 <div class="product__item">
-                                    <div class="product__item__pic "> 
-                                        <image v-bind:src="img/product/product.image"></image>
+                                    <div class="product__item__pic" v-bind:style='"background-image: url("+product.image+")"'> 
+                                        <!-- <image v-bind:src="img/product/product.image"></image> -->
                                          <!-- <ul class="product__hover" >
                                             <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
                                             <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a>
