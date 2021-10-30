@@ -198,10 +198,10 @@
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
+                            <li>Subtotal <span>$ {{total_amount}}</span></li>
+                            <li>Total <span>$ {{total_amount}}</span></li>
                         </ul>
-                        <a class="primary-btn" @click="CreateOrder">Place Order</a>
+                        <a href="" class="primary-btn" @click="createOrder">Place Order</a>
                     </div>
                 </div>
             </div>
@@ -327,7 +327,6 @@
                         return;
                     }
                     
-
                 } catch (error) {
                     if (error.response) {
                         this.displayError = true
@@ -342,12 +341,13 @@
             },
             getTotalAmount(){
                 for(item of this.cart){
-                    this.total_amount += item.price 
+                    this.total_amount += (item.price * item.quantity);
                 }
             }
         },
         mounted() {
-        }
+            this.getTotalAmount();
+        },
     });
     </script>
 </body>
