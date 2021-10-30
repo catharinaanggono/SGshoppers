@@ -343,10 +343,32 @@
                 for(item of this.cart){
                     this.total_amount += (item.price * item.quantity);
                 }
+            },
+            getSess(){
+                if( localStorage.getItem("cart") != null){
+                    console.log('eeeeeee')
+
+                    let cart_array = localStorage.getItem("cart"); 
+
+                    console.log('cart_array:' + cart_array);
+                    console.log('cart_array:' + typeof(cart_array));
+
+                  
+                    let destring_cart = JSON.parse(cart_array);
+
+                    console.log('destring_cart:' + destring_cart);
+
+                    //console.log(destring_cart + 'eeee')
+
+                        // for(dict of destring_cart){
+                        //     console.log('cart_array: ' + dict.pImg)
+                        // }                    
+                }
             }
         },
         mounted() {
             this.getTotalAmount();
+            this.getSess();
         },
     });
     </script>
