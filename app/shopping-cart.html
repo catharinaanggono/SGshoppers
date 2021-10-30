@@ -170,119 +170,38 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr v-for="item in cart">
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-1.jpg" alt="">
+                                            <img v-bind:src="item.pImg" alt="">
                                         </div>
                                         <div class="product__cart__item__text">
-                                            <h6>T-shirt Contrast Pocket</h6>
-                                            <h5>$98.49</h5>
+                                            <h6>{{item.pName}}</h6>
+                                            <h5>${{item.price}}</h5>
                                         </div>
                                     </td>
                                     <td class="quantity__item">
                                         <div class="quantity">
                                             <div class="pro-qty-2">
-                                                <input type="text" value="1">
+                                                <input type="text" v-model="item.quantity">
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-2.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Diagonal Textured Cap</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 32.50</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-3.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 47.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-4.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
+                                    <td class="cart__price">${{item.price * item.quantity}}</td>
                                     <td class="cart__close"><i class="fa fa-close"></i></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div>
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
                             <li>Subtotal <span>$ 169.50</span></li>
                             <li>Total <span>$ 169.50</span></li>
                         </ul>
-                        <button type="button" @click="createOrder">
-                            Confirm Order
-                        </button>
+                        <a href="" class="primary-btn" @click="createOrder">Place Order</a>
                     </div>
                 </div>
             </div>
@@ -384,14 +303,15 @@
             new Vue({
         el: "#app",
         data: {
-            cart: [{"id": 1, "quantity": 10, "price": 2}],
+            cart: [{pId: "1", pName: "Shirt", pImg: "img/shopping-cart/cart-1.jpg", quantity: 5, price: 2.5}, {pId: "2", pName: "Shoe", pImg: "img/shopping-cart/cart-2.jpg", quantity: 3, price: 1.5}],
             customer_id: 1,
-            total_amount: 20,
+            total_amount: 0,
             errorMessage: "",
             displayError: false
         },
         mounted() {
             this.init();
+            getTotalAmount();
         },
         methods: {
             init() {
@@ -399,7 +319,7 @@
             },
             async createOrder() {
                 try {
-                    url = "http://localhost:5003/api/create_order";
+                    url = ORDER_HOST + "/api/create_order";
                     orderData = {
                         cart: this.cart,
                         customer_id: this.customer_id,
@@ -410,8 +330,6 @@
 
                     const status = response.data.status;
                     if (status == "error") {
-                        // this.displayError = true
-                        // this.errorMessage = response.data.message;
                         console.log(response.data.message);
                         return;
                     }
@@ -427,6 +345,11 @@
                         console.log("Error", error.message);
                     }
                     return;
+                }
+            },
+            getTotalAmount(){
+                for(item in cart){
+                    totalAmount += item.price
                 }
             }
         },
