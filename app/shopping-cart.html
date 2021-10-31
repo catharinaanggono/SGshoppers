@@ -205,6 +205,34 @@
                         <ul>
                             <li>Subtotal <span>$ {{total_amount}}</span></li>
                             <li>Discount <span>$ {{discountValue}}</span></li>
+                            <button class="" data-toggle="modal" data-target="#exampleModalCenter" @click="getUserVouchers()">USE VOUCHER</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">My Vouchers</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div v-for="voucher in vouchers">
+                                            <ul>
+                                                <li>Value <span>$ {{ voucher.value }}</span></li>
+                                                <li>Quantity <span>{{ voucher.quantity }}</span></li>
+                                                <li><button type="button" @click="select(voucher.value)">Use</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Use</button> -->
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
                             <li>Total <span>$ {{total_amount - discountValue}}</span></li>
                         </ul>
                         <a href="javascript:void(0);" class="primary-btn" @click="createOrder(); useRewards();">Place Order</a>
@@ -312,7 +340,8 @@
             cart: [],
             customer_id: 1,
             total_amount: 0,
-            discountValue: null
+            discountValue: null,
+            vouchers: []
         },
         methods: {
             async createOrder() {
@@ -361,6 +390,37 @@
                     }
                     console.log(response.data);
                 }
+            },
+            async getUserVouchers() {
+                try {
+                    console.log("TESTTTT")
+                    url = REWARD_HOST + `/api/vouchers/${this.customer_id}`;
+
+                    const response = await axios.get(url);
+
+                    const status = response.data.status;
+                    if (status == "error") {
+                        this.displayError = true
+                        this.errorMessage = response.data.message;
+                        return;
+                    }
+                    this.vouchers = response.data.data;
+                    console.log("@@@@@@@@@@@@@@")
+                    console.log(this.vouchers)
+                } catch (error) {
+                    if (error.response) {
+                        this.displayError = true
+                        this.errorMessage = error.response.data.message;
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log("Error", error.message);
+                    }
+                    return;
+                }
+            },
+            select(value){
+                this.discountValue = value;
             }
         },
         mounted() {
