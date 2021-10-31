@@ -180,7 +180,7 @@
                                     <td class="quantity__item">{{item.total_amount}}</td>
                                     <td class="quantity__item">{{item.delivery_status}}</td>
                                     <td>
-                                        <button type="button" @click="updateStatus">
+                                        <button type="button" @click="updateStatus(item.id)">
                                             Update
                                         </button>
                                     </td>
@@ -328,9 +328,9 @@
                         return;
                     }
                     // console.log(response.data);
-                    console.log(response.data.data.invoices);
+                    //console.log(response.data.data.invoices);
                     this.cart = response.data.data.invoices;
-                    console.log(this.cart);
+                    //console.log(this.cart);
 
                 } catch (error) {
                     if (error.response) {
@@ -344,13 +344,19 @@
                     return;
                 }
             },
-            async updateStatus(){
+            async updateStatus(order_id){
                 try {
-                    url = "http://localhost:5003/api/invoice/" + this.order_id + "/delivery_status";
+                    
+                    //console.log(order_id)
+                    
+                    url = "http://localhost:5003/api/invoice/" + order_id + "/delivery_status";
 
                     const response = await axios.patch(url);
 
                     const status = response.data.status;
+
+                    this.delivery_status = 'Delivered'
+                    
                     if (status == "error") {
                         // this.displayError = true
                         // this.errorMessage = response.data.message;
