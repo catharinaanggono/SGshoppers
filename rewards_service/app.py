@@ -15,20 +15,6 @@ migrate = Migrate(app, db)
 CORS(app)
 
 
-class Voucher(db.Model):
-    __tablename__ = "voucher"
-
-    value = db.Column(db.Integer, primary_key=True)
-    cost = db.Column(db.Integer, nullable=False)
-
-    def __init__(self, value, cost):
-        self.value = value
-        self.cost = cost
-
-    def json(self):
-        return {"value": self.value, "cost": self.cost}
-
-
 class User_Voucher(db.Model):
     __tablename__ = "user_voucher"
 
@@ -54,18 +40,6 @@ def test():
         jsonify({"status": "success", "message": "Rewards Service is working"}),
         200,
     )
-    response.headers["Content-Type"] = "application/json"
-    return response
-
-
-@app.route(url_route + "/vouchers")
-def get_voucher_details():
-    vouchers = {"vouchers": [Voucher.json() for Voucher in Voucher.query.all()]}
-    response = make_response(
-        jsonify({"status": "success", "data": vouchers}),
-        200,
-    )
-
     response.headers["Content-Type"] = "application/json"
     return response
 
