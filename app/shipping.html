@@ -349,7 +349,7 @@
                     
                     //console.log(order_id)
                     
-                    url = "http://localhost:5003/api/invoice/" + order_id + "/delivery_status";
+                    url = ORDER_HOST + "/api/invoice/" + order_id + "/delivery_status";
 
                     const response = await axios.patch(url);
 
