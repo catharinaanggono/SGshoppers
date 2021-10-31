@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    <!-- VueJS & Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="./js/autoload.js"></script>
 </head>
 
 <body>
@@ -149,7 +155,7 @@
     <!-- Breadcrumb Section End -->
 
     <!-- Shopping Cart Section Begin -->
-    <section class="shopping-cart spad">
+    <section class="shopping-cart spad" id="app">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -164,117 +170,44 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr v-for="item in cart">
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-1.jpg" alt="">
+                                            <img v-bind:src="item.pImg" width="100px"alt="">
                                         </div>
                                         <div class="product__cart__item__text">
-                                            <h6>T-shirt Contrast Pocket</h6>
-                                            <h5>$98.49</h5>
+                                            <h6>{{item.pName}}</h6>
+                                            <h5>${{item.price}}</h5>
                                         </div>
                                     </td>
                                     <td class="quantity__item">
                                         <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
+                                            <h6>{{item.quantity}}</h6>
                                         </div>
                                     </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-2.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Diagonal Textured Cap</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 32.50</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-3.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 47.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-4.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
+                                    <td class="cart__price">${{item.price * item.quantity}}</td>
+                                    <!-- <td class="cart__close"><i class="fa fa-close"></i></td> -->
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="cart__discount">
                         <h6>Discount codes</h6>
                         <form action="#">
-                            <input type="text" placeholder="Coupon code">
+                            <input type="text" placeholder="Coupon code" v-model="discountValue">
                             <button type="submit">Apply</button>
                         </form>
                     </div>
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
+                            <li>Subtotal <span>$ {{total_amount}}</span></li>
+                            <li>Discount <span>$ {{discountValue}}</span></li>
+                            <li>Total <span>$ {{total_amount - discountValue}}</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="javascript:void(0);" class="primary-btn" @click="createOrder(); useRewards();">Place Order</a>
                     </div>
                 </div>
             </div>
@@ -371,6 +304,72 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+            new Vue({
+        el: "#app",
+        data: {
+            cart: [],
+            customer_id: 1,
+            total_amount: 0,
+            discountValue: null
+        },
+        methods: {
+            async createOrder() {
+                url = ORDER_HOST + "/api/create_order";
+                orderData = {
+                    cart: this.cart,
+                    customer_id: this.customer_id,
+                    total_amount: this.total_amount - this.discountValue
+                }
+                localStorage.removeItem("cart");
+
+                const response = await axios.post(url, orderData);
+
+                const status = response.data.status;
+                if (status == "error") {
+                    console.log(response.data.message);
+                    return;
+                }
+
+            },
+            getTotalAmount(){
+                for(item of this.cart){
+                    this.total_amount += (item.price * item.quantity);
+                }
+            },
+            getSess(){
+                if(localStorage.getItem("cart") != null){
+                    this.cart = JSON.parse(localStorage.getItem("cart"));
+                }
+            },
+            getCustomerID(){
+                if(getCookie("userId") != null){
+                    console.log(getCookie("userId"));
+                    this.customer_id = getCookie("userId");
+                }
+            },
+            async useRewards(){
+                if(this.discountValue != null){
+                    url = REWARD_HOST + `/api/use_voucher/${this.customer_id}/${this.discountValue}`;
+                    const response = await axios.patch(url);
+
+                    const status = response.data.status;
+                    if (status == "error") {
+                        console.log(response.data.message);
+                        return;
+                    }
+                    console.log(response.data);
+                }
+            }
+        },
+        mounted() {
+            this.getSess();
+            this.getTotalAmount();
+            this.getCustomerID();
+        },
+    });
+    </script>
 </body>
 
 </html>
