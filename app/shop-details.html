@@ -313,6 +313,7 @@
             methods : {
                 addToSess() {
                     console.log('dunction working')
+
                 if(localStorage.getItem("cart") == null){    
                     console.log(localStorage.length + ' trutrutrutur')
                     let productOrder = {
@@ -330,7 +331,9 @@
 
                     localStorage.setItem("cart",  cartString);
 
-                } else if (localStorage.getItem("cart") != null){
+                } 
+                
+                else if (localStorage.getItem("cart") != null){
                     let productOrder = {
                         pId: this.id, 
                         pName: this.name,
@@ -340,6 +343,7 @@
                     }
 
                     let cart_array = localStorage.getItem("cart"); 
+
                     let destring_cart = JSON.parse(cart_array);
 
                     destring_cart.push(productOrder);

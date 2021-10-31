@@ -141,11 +141,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Shopping Cart</h4>
+                        <h4>Shipment</h4>
                         <div class="breadcrumb__links">
                             <a href="./index.html">Home</a>
-                            <a href="./shop.html">Shop</a>
-                            <span>Shopping Cart</span>
+                            <span>Shippment</span>
                         </div>
                     </div>
                 </div>
@@ -163,128 +162,43 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th>Customer Id</th>
+                                    <th>Order Id</th>
+                                    <th>Total Amount</th>
+                                    <th>Deliery Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody v-for='item in cart'>
                                 <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-1.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>T-shirt Contrast Pocket</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
+                                    <td class="quantity__item">
+                                        <h5>{{item.customer_id}}</h5>
                                     </td>
                                     <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
+                                        {{item.id}}
                                     </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-2.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Diagonal Textured Cap</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
+                                    <td class="quantity__item">{{item.total_amount}}</td>
+                                    <td class="quantity__item">{{item.delivery_status}}</td>
+                                    <td>
+                                        <button type="button" @click="updateStatus">
+                                            Update
+                                        </button>
                                     </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 32.50</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-3.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 47.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-4.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div>
+                <!-- <div class="col-lg-4">
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
                             <li>Subtotal <span>$ 169.50</span></li>
                             <li>Total <span>$ 169.50</span></li>
                         </ul>
-                        <button type="button" @click="updateStatus">
-                            Update
-                        </button>
+
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -386,19 +300,21 @@
         data: {
             cart: [{"id": 1, "quantity": 10, "price": 2}],
             customer_id: 1,
+            order_id: 1,
             total_amount: 20,
+            delivery_status: 'Pending',
             errorMessage: "",
             displayError: false
         },
         mounted() {
             this.init();
-            this.createOrder();
+            this.getInvoices();
         },
         methods: {
             init() {
 
             },
-            async createOrder() {
+            async getInvoices() {
                 try {
                     url = "http://localhost:5003/api/invoices";
 
@@ -411,7 +327,10 @@
                         console.log(response.data.message);
                         return;
                     }
-                    console.log(response.data);
+                    // console.log(response.data);
+                    console.log(response.data.data.invoices);
+                    this.cart = response.data.data.invoices;
+                    console.log(this.cart);
 
                 } catch (error) {
                     if (error.response) {
@@ -427,7 +346,7 @@
             },
             async updateStatus(){
                 try {
-                    url = "http://localhost:5003/api/invoice/77/delivery_status";
+                    url = "http://localhost:5003/api/invoice/" + this.order_id + "/delivery_status";
 
                     const response = await axios.patch(url);
 
