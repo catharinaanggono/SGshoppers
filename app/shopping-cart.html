@@ -173,7 +173,7 @@
                                 <tr v-for="item in cart">
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <img v-bind:src="item.pImg" alt="">
+                                            <img v-bind:src="item.pImg" width="100px"alt="">
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6>{{item.pName}}</h6>
@@ -182,13 +182,11 @@
                                     </td>
                                     <td class="quantity__item">
                                         <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" v-model="item.quantity">
-                                            </div>
+                                            <h6>{{item.quantity}}</h6>
                                         </div>
                                     </td>
                                     <td class="cart__price">${{item.price * item.quantity}}</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
+                                    <!-- <td class="cart__close"><i class="fa fa-close"></i></td> -->
                                 </tr>
                             </tbody>
                         </table>
@@ -303,39 +301,25 @@
             new Vue({
         el: "#app",
         data: {
-            cart: [{pId: "1", pName: "Shirt", pImg: "img/shopping-cart/cart-1.jpg", quantity: 5, price: 2.5}, {pId: "2", pName: "Shoe", pImg: "img/shopping-cart/cart-2.jpg", quantity: 3, price: 1.5}],
+            cart: [],
             customer_id: 1,
             total_amount: 0,
-            errorMessage: "",
-            displayError: false
         },
         methods: {
             async createOrder() {
-                try {
-                    url = ORDER_HOST + "/api/create_order";
-                    orderData = {
-                        cart: this.cart,
-                        customer_id: this.customer_id,
-                        total_amount: this.total_amount
-                    }
+                url = ORDER_HOST + "/api/create_order";
+                orderData = {
+                    cart: this.cart,
+                    customer_id: this.customer_id,
+                    total_amount: this.total_amount
+                }
+                localStorage.removeItem("cart");
 
-                    const response = await axios.post(url, orderData);
+                const response = await axios.post(url, orderData);
 
-                    const status = response.data.status;
-                    if (status == "error") {
-                        console.log(response.data.message);
-                        return;
-                    }
-                    
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
+                const status = response.data.status;
+                if (status == "error") {
+                    console.log(response.data.message);
                     return;
                 }
             },
@@ -352,13 +336,15 @@
 
                     let destring_cart = JSON.parse(cart_array);
 
-                    this.cart = destring_cart;            
+                    this.cart = destring_cart;  
+                              
+                   // this.cart = JSON.parse(localStorage.getItem("cart"));
                 }
             }
         },
         mounted() {
-            this.getTotalAmount();
             this.getSess();
+            this.getTotalAmount();
         },
     });
     </script>

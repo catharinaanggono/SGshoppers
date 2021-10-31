@@ -106,7 +106,7 @@ def get_user_vouchers(user_id):
         )
     else:
         response = make_response(
-            jsonify({"status": "fail", "message": "User does not have vouchers"}),
+            jsonify({"status": "error", "message": "User does not have vouchers"}),
             404,
         )
 

@@ -310,20 +310,19 @@
                     console.log(error.message)
                 })
             },
-            methods : {
+            methods: {
                 addToSess() {
                     console.log('dunction working')
 
                 if(localStorage.getItem("cart") == null){    
-                    console.log(localStorage.length + ' trutrutrutur')
                     let productOrder = {
                         pId: this.id, 
                         pName: this.name,
-                        pImg: this.image,
+                        pImg: "img/product/"+this.image,
                         quantity: this.qty,
                         price: this.price   
                     }
-
+                    console.log(productOrder);
                     let cart = [];
                     cart.push(productOrder);
 
@@ -337,19 +336,15 @@
                     let productOrder = {
                         pId: this.id, 
                         pName: this.name,
-                        pImg: this.image,
+                        pImg: "img/product/"+this.image,
                         quantity: this.qty,
                         price: this.price   
                     }
-
+                    console.log(productOrder);
                     let cart_array = localStorage.getItem("cart"); 
 
                     let destring_cart = JSON.parse(cart_array);
-
                     destring_cart.push(productOrder);
-                    
-                    console.log(destring_cart + "final")
-
                     let cartString = JSON.stringify(destring_cart);
 
                     localStorage.setItem("cart",  cartString);
