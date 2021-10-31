@@ -1,5 +1,8 @@
 const HOST = "http://localhost";
 const USER_HOST = HOST + ":5000";
+const ORDER_HOST = HOST + ":5003";
+const PRODUCT_HOST = HOST + ":5001";
+const REWARD_HOST = HOST + ":5002";
 
 // Function to create the cookie
 function createCookie(name, value, days) {
@@ -30,16 +33,6 @@ function getCookie(cname) {
     }
   }
   return "";
-
-  // for (var i = 0; i < ca.length; i++) {
-  //   var c = ca[i];
-  //   while (c.charAt(0) == " ") {
-  //     c = c.substring(1);
-  //   }
-  //   if (c.indexOf(name) == 0) {
-  //     return c.substring(name.length, c.length);
-  //   }
-  // }
 }
 
 function deleteCookie(name) {
@@ -62,4 +55,15 @@ function listCookies() {
 
 function getURL() {
   alert("The URL of this page is: " + window.location.href);
+}
+
+function deleteAllCookies() {
+  var allCookies = document.cookie.split(";");
+
+  for (let c of allCookies) {
+    document.cookie =
+      c +
+      "=;expires=Thu, 01 Jan 1970 00:00:01 GMT" +
+      ("/" ? "; path=" + "/" : "");
+  }
 }

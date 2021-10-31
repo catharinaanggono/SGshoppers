@@ -43,14 +43,11 @@
                 <span class="login100-form-title p-b-41">
                     Account Login
                 </span>
-<<<<<<< Updated upstream
-=======
                 <div class="alert alert-success" role="alert" v-if="displayError">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <strong>Error!</strong> {{ErrorMessage}}
+                    <strong>Error!</strong> {{errorMessage}}
                 </div>
->>>>>>> Stashed changes
                 <form class="login100-form validate-form p-b-33 p-t-5">
 
                     <div class="wrap-input100 validate-input" data-validate="Enter email">
@@ -101,11 +98,7 @@
         data: {
             email: "",
             password: "",
-<<<<<<< Updated upstream
-            error: "",
-=======
             errorMessage: "",
->>>>>>> Stashed changes
             displayError: false
         },
         mounted() {
@@ -122,56 +115,40 @@
                         email: this.email,
                         password: this.password
                     }
-                    // create post request
+
                     const response = await axios.post(url, loginData);
 
                     const status = response.data.status;
                     if (status == "error") {
-                        // display login error
-<<<<<<< Updated upstream
-                        this.error = response.data.message;
-=======
+                        this.displayError = true
                         this.errorMessage = response.data.message;
->>>>>>> Stashed changes
                         return;
                     }
                     var user = response.data.data.user;
-                    console.log(user.role)
-                    // create cookie to save user details
-<<<<<<< Updated upstream
-=======
                     createCookie("userId", user.id)
                     createCookie("name", user.name)
                     createCookie("role", user.role)
->>>>>>> Stashed changes
-
                     if (user.role == "customer") {
                         window.location.href = "index.html";
+                        return;
+                    } else if (user.role == "delivery") {
+                        window.location.href = "shipping.html";
+                        return;
                     }
                     window.location.href = "admin-index.html";
+                    return;
 
                 } catch (error) {
-                    console.log("error")
-<<<<<<< Updated upstream
-                    // if (error.response) {
-                    //     this.error = error.response.data.message;
-                    // } else if (error.request) {
-                    //     console.log(error.request);
-                    // } else {
-                    //     console.log("Error", error.message);
-                    // }
-=======
                     if (error.response) {
+                        this.displayError = true
                         this.errorMessage = error.response.data.message;
                     } else if (error.request) {
                         console.log(error.request);
                     } else {
                         console.log("Error", error.message);
                     }
->>>>>>> Stashed changes
                     return;
                 }
-                return;
             }
         },
     });
