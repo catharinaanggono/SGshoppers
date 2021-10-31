@@ -11,7 +11,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -261,7 +261,7 @@
                                 document.write(new Date().getFullYear());
                             </script>2020
                             All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
@@ -296,89 +296,89 @@
 
     <script>
         new Vue({
-        el: "#app",
-        data: {
-            cart: [{"id": 1, "quantity": 10, "price": 2}],
-            customer_id: 1,
-            order_id: 1,
-            total_amount: 20,
-            delivery_status: 'Pending',
-            errorMessage: "",
-            displayError: false
-        },
-        mounted() {
-            this.init();
-            this.getInvoices();
-        },
-        methods: {
-            init() {
-
+            el: "#app",
+            data: {
+                cart: [{ "id": 1, "quantity": 10, "price": 2 }],
+                customer_id: 1,
+                order_id: 1,
+                total_amount: 20,
+                delivery_status: 'Pending',
+                errorMessage: "",
+                displayError: false
             },
-            async getInvoices() {
-                try {
-                    url = "http://localhost:5003/api/invoices";
+            mounted() {
+                this.init();
+                this.getInvoices();
+            },
+            methods: {
+                init() {
 
-                    const response = await axios.get(url);
+                },
+                async getInvoices() {
+                    try {
+                        url = "http://localhost:5003/api/invoices";
 
-                    const status = response.data.status;
-                    if (status == "error") {
-                        // this.displayError = true
-                        // this.errorMessage = response.data.message;
-                        console.log(response.data.message);
+                        const response = await axios.get(url);
+
+                        const status = response.data.status;
+                        if (status == "error") {
+                            // this.displayError = true
+                            // this.errorMessage = response.data.message;
+                            console.log(response.data.message);
+                            return;
+                        }
+                        // console.log(response.data);
+                        //console.log(response.data.data.invoices);
+                        this.cart = response.data.data.invoices;
+                        //console.log(this.cart);
+
+                    } catch (error) {
+                        if (error.response) {
+                            this.displayError = true
+                            this.errorMessage = error.response.data.message;
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log("Error", error.message);
+                        }
                         return;
                     }
-                    // console.log(response.data);
-                    //console.log(response.data.data.invoices);
-                    this.cart = response.data.data.invoices;
-                    //console.log(this.cart);
+                },
+                async updateStatus(order_id) {
+                    try {
 
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
-                    return;
-                }
-            },
-            async updateStatus(order_id){
-                try {
-                    
-                    //console.log(order_id)
-                    
-                    url = ORDER_HOST + "/api/invoice/" + order_id + "/delivery_status";
+                        //console.log(order_id)
 
-                    const response = await axios.patch(url);
+                        url = ORDER_HOST + "/api/invoice/" + order_id + "/delivery_status";
 
-                    const status = response.data.status;
+                        const response = await axios.patch(url);
 
-                    this.delivery_status = 'Delivered'
-                    
-                    if (status == "error") {
-                        // this.displayError = true
-                        // this.errorMessage = response.data.message;
-                        console.log(response.data.message);
+                        const status = response.data.status;
+
+                        this.delivery_status = 'Delivered'
+
+                        if (status == "error") {
+                            // this.displayError = true
+                            // this.errorMessage = response.data.message;
+                            console.log(response.data.message);
+                            return;
+                        }
+                        console.log(response.data);
+
+                    } catch (error) {
+                        if (error.response) {
+                            this.displayError = true
+                            this.errorMessage = error.response.data.message;
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log("Error", error.message);
+                        }
                         return;
                     }
-                    console.log(response.data);
-
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
-                    return;
                 }
-            }
-        },
-    });
+            },
+        });
     </script>
 </body>
 
