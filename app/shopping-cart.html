@@ -193,13 +193,21 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
+                    <div class="cart__discount">
+                        <h6>Discount codes</h6>
+                        <form action="#">
+                            <input type="text" placeholder="Coupon code" v-model="discountValue">
+                            <button type="submit">Apply</button>
+                        </form>
+                    </div>
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
                             <li>Subtotal <span>$ {{total_amount}}</span></li>
-                            <li>Total <span>$ {{total_amount}}</span></li>
+                            <li>Discount <span>$ {{discountValue}}</span></li>
+                            <li>Total <span>$ {{total_amount - discountValue}}</span></li>
                         </ul>
-                        <a href="" class="primary-btn" @click="createOrder">Place Order</a>
+                        <a href="javascript:void(0);" class="primary-btn" @click="createOrder(); useRewards();">Place Order</a>
                     </div>
                 </div>
             </div>
@@ -304,6 +312,7 @@
             cart: [],
             customer_id: 1,
             total_amount: 0,
+            discountValue: null
         },
         methods: {
             async createOrder() {
@@ -311,7 +320,7 @@
                 orderData = {
                     cart: this.cart,
                     customer_id: this.customer_id,
-                    total_amount: this.total_amount
+                    total_amount: this.total_amount - this.discountValue
                 }
                 localStorage.removeItem("cart");
 
@@ -322,6 +331,7 @@
                     console.log(response.data.message);
                     return;
                 }
+
             },
             getTotalAmount(){
                 for(item of this.cart){
@@ -329,14 +339,34 @@
                 }
             },
             getSess(){
-                if( localStorage.getItem("cart") != null){
+                if(localStorage.getItem("cart") != null){
                     this.cart = JSON.parse(localStorage.getItem("cart"));
+                }
+            },
+            getCustomerID(){
+                if(getCookie("userId") != null){
+                    console.log(getCookie("userId"));
+                    this.customer_id = getCookie("userId");
+                }
+            },
+            async useRewards(){
+                if(this.discountValue != null){
+                    url = REWARD_HOST + `/api/use_voucher/${this.customer_id}/${this.discountValue}`;
+                    const response = await axios.patch(url);
+
+                    const status = response.data.status;
+                    if (status == "error") {
+                        console.log(response.data.message);
+                        return;
+                    }
+                    console.log(response.data);
                 }
             }
         },
         mounted() {
             this.getSess();
             this.getTotalAmount();
+            this.getCustomerID();
         },
     });
     </script>
