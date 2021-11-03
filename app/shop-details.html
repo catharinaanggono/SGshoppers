@@ -150,6 +150,35 @@
                     </div>
                 </div>
                 <div class="row">
+                    <!-- <div class="col-lg-3 col-md-3">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-1.png">
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-2.png">
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-3.png">
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-4.png">
+                                        <i class="fa fa-play"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> -->
                     <div class="col">
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -157,7 +186,22 @@
                                     <img v-bind:src="'img/product/'+image" alt="">
                                 </div>
                             </div>
-
+                            <!-- <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="img/shop-details/product-big-3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="img/shop-details/product-big.png" alt="">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-4" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="img/shop-details/product-big-4.png" alt="">
+                                    <a href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1" class="video-popup"><i class="fa fa-play"></i></a>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -171,7 +215,6 @@
                             <h4>{{name}}</h4>
                             <h3>${{price}}</h3>
                             <p>{{description}}</p>
-
                             <div class="product__details__cart__option">
                                 <div class="quantity">
                                     <div class="pro-qty">
@@ -179,9 +222,8 @@
                                     </div>
                                 </div>
                                 <a href="#" class="primary-btn" @click="addToSess">add to cart</a>
-                            </div>
-
-                            <div class="product__details__last__option">
+                            </div>                            
+                            <div class="product__details__last__option">                                
                                 <ul>
                                     <li><span>Product ID:</span> {{id}}</li>
                                     <li><span>Stock:</span> {{stock}}</li>
@@ -284,20 +326,19 @@
                 price: 0,
                 stock: 0,
                 image: "",
-                qty: 1
             },
             created() {
                 let urlParams = new URLSearchParams(window.location.search);
-                // console.log(urlParams.has('id')); 
-                // console.log(urlParams.get('id')); 
+                console.log(urlParams.has('id')); 
+                console.log(urlParams.get('id')); 
                 this.id = urlParams.get('id')
 
                 url = PRODUCT_HOST + "/api/product/" + this.id
-                // console.log(url)
+                console.log(url)
                 axios.get(url)
                 .then(response => {
                     product_detail = response.data.data.product
-                    // console.log(product_detail)
+                    console.log(product_detail)
                     this.description = product_detail.description
                     this.name = product_detail.name
                     this.price = product_detail.price
@@ -306,52 +347,10 @@
                 })
                 .catch(error => {
                     // this.products_list.push(error.message)
-
                     console.log(error.message)
                 })
             },
-            methods: {
-                addToSess() {
-                    console.log('dunction working')
 
-                if(localStorage.getItem("cart") == null){    
-                    let productOrder = {
-                        pId: this.id, 
-                        pName: this.name,
-                        pImg: "img/product/"+this.image,
-                        quantity: this.qty,
-                        price: this.price   
-                    }
-                    console.log(productOrder);
-                    let cart = [];
-                    cart.push(productOrder);
-
-                    let cartString = JSON.stringify(cart);
-
-                    localStorage.setItem("cart",  cartString);
-
-                } 
-                
-                else if (localStorage.getItem("cart") != null){
-                    let productOrder = {
-                        pId: this.id, 
-                        pName: this.name,
-                        pImg: "img/product/"+this.image,
-                        quantity: this.qty,
-                        price: this.price   
-                    }
-                    console.log(productOrder);
-                    let cart_array = localStorage.getItem("cart"); 
-
-                    let destring_cart = JSON.parse(cart_array);
-                    destring_cart.push(productOrder);
-                    let cartString = JSON.stringify(destring_cart);
-
-                    localStorage.setItem("cart",  cartString);
-                }
-            
-            }
-            } 
         });
     </script>
 

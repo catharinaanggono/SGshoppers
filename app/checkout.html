@@ -22,12 +22,6 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
-
-    <!-- VueJS & Axios -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- Custom JavaScript -->
-    <script src="./js/autoload.js"></script>
 </head>
 
 <body>
@@ -276,29 +270,6 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">My Vouchers</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div v-for>
-                                                {{ value }}
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Use</button> -->
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                <button class="site-btn" data-toggle="modal" data-target="#exampleModalCenter">USE VOUCHER</button>
                                 <button type="submit" class="site-btn">PLACE ORDER</button>
                             </div>
                         </div>
@@ -399,55 +370,5 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
 </body>
-<script>
-    new Vue({
-        el: "#app",
-        data: {
-            displayUser: false,
-            userId: "",
-            displayError: false,
-            errorMessage: ""
-        },
-        mounted() {
-            this.init();
-        },
-        methods: {
-            init() {
-                // check if cookie exist
-                this.userId = getCookie("userId")
-                if (this.userId != "") {
-                    this.displayUser = true;
-                }
-            },
-            async getVouchers() {
-                try {
-                    console.log("TESTTTT")
-                    url = REWARD_HOST + `/api/vouchers/${this.userId}`;
 
-                    const response = await axios.get(url);
-
-                    const status = response.data.status;
-                    if (status == "error") {
-                        this.displayError = true
-                        this.errorMessage = response.data.message;
-                        return;
-                    }
-                    this.points = response.data.data.points;
-                    console.log("@@@@@@@@@@@@@@")
-                    console.log(this.points)
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
-                    return;
-                }
-            },
-        },
-    });
-</script>
 </html>
