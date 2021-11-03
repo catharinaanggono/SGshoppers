@@ -157,6 +157,12 @@
     <!-- Shopping Cart Section Begin -->
     <section class="shopping-cart spad" id="app">
         <div class="container">
+
+            <div class="alert alert-success" role="alert" v-if="alert_show">
+                <h4 class="alert-heading" >Check out done!</h4>
+                <p>You successfully bought this </p>
+            </div>
+
             <div class="row">
                 <div class="col-lg-8">
                     <div class="shopping__cart__table">
@@ -192,7 +198,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4"  v-if="!alert_show">
                     <div class="cart__discount">
                         <h6>Discount codes</h6>
                         <form action="#">
@@ -200,7 +206,7 @@
                             <button type="submit">Apply</button>
                         </form>
                     </div>
-                    <div class="cart__total">
+                    <div class="cart__total" v-if="!alert_show">
                         <h6>Cart total</h6>
                         <ul>
                             <li>Subtotal <span>$ {{total_amount}}</span></li>
@@ -235,7 +241,7 @@
 
                             <li>Total <span>$ {{total_amount - discountValue}}</span></li>
                         </ul>
-                        <a href="javascript:void(0);" class="primary-btn" @click="createOrder(); useRewards();">Place Order</a>
+                        <a href="javascript:void(0);" class="primary-btn" @click="createOrder();">Place Order</a>
                     </div>
                 </div>
             </div>
@@ -341,7 +347,8 @@
             customer_id: 1,
             total_amount: 0,
             discountValue: null,
-            vouchers: []
+            vouchers: [],
+            alert_show: false
         },
         methods: {
             async createOrder() {
@@ -359,6 +366,10 @@
                 if (status == "error") {
                     console.log(response.data.message);
                     return;
+                }
+
+                else {
+                    this.alert_show = true;
                 }
 
             },
