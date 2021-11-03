@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e205fd78-d38c-4a29-a0d6-eb4aae7bf136",
+		"_postman_id": "9bfcb2a8-7104-4bae-900c-909e64ed9329",
 		"name": "CME-SGShoppers",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -270,9 +270,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": ""
-						}
+						"url": null
 					},
 					"response": []
 				}
@@ -288,7 +286,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cart\": [{\"pId\": \"1\", \"pName\": \"Shirt\", \"pImg\": \"img/shopping-cart/cart-1.jpg\", \"quantity\": 5, \"price\": 2.5}],\r\n    \"customer_id\" : 1,\r\n    \"total_amount\": 112\r\n}",
+							"raw": "{\r\n    \"cart\": [{\"price\": 2, \"id\": \"1\", \"quantity\": 10}],\r\n    \"customer_id\" : 1,\r\n    \"total_amount\": 112\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -316,7 +314,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5003/api/invoice/120",
+							"raw": "http://localhost:5003/api/invoice/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -325,7 +323,7 @@
 							"path": [
 								"api",
 								"invoice",
-								"120"
+								"1"
 							]
 						}
 					},
@@ -358,7 +356,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5003/api/invoice/121/delivery_status",
+							"raw": "http://localhost:5003/api/invoice/1/delivery_status",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -367,7 +365,7 @@
 							"path": [
 								"api",
 								"invoice",
-								"121",
+								"1",
 								"delivery_status"
 							]
 						}
