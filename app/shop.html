@@ -282,7 +282,7 @@
                 axios.get(url)
                 .then(response => {
                     products = response.data.data.products
-                    console.log(products)
+                    // console.log(products)
                     for (i in products){
                         description = products[i].description
                         id = products[i].id
@@ -291,7 +291,7 @@
                         product_name = products[i].name
                         this.products_list.push({description: description, id: id, image: image, price: price, name: product_name})
                     }
-                    console.log(this.products_list)
+                    // console.log(this.products_list)
                 })
                 .catch(error => {
                     this.products_list.push(error.message)
