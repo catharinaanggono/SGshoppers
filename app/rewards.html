@@ -359,6 +359,35 @@
                     return;
                 }
             },
+            async updateUserPoints() {
+                try {
+                    url = USER_HOST + `/api/user/${this.userId}/points`;
+                    userData = {
+                        points: this.points
+                    }
+
+                    const response = await axios.patch(url, userData);
+
+                    const code = response.data.code;
+                    const status = response.data.status;
+                    if (status == "error") {
+                        this.displayError = true
+                        this.errorMessage = response.data.message;
+                        return;
+                    }
+
+                } catch (error) {
+                    if (error.response) {
+                        this.displayError = true
+                        this.errorMessage = error.response.data.message;
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log("Error", error.message);
+                    }
+                    return;
+                }
+            },
             async redeemPoints(value) {
                 try {
                     url = REWARD_HOST + "/api/purchase_voucher";
@@ -380,36 +409,7 @@
                         } else {
                             this.points -= 850
                         }
-                        updateUserPoints()
-                        return;
-                    }
-
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
-                    return;
-                }
-            },
-            async updateUserPoints() {
-                try {
-                    url = USER_HOST + `/api/user/${this.userId}/points`;
-                    userData = {
-                        points: this.points
-                    }
-
-                    const response = await axios.patch(url, userData);
-
-                    const code = response.data.code;
-                    const status = response.data.status;
-                    if (status == "error") {
-                        this.displayError = true
-                        this.errorMessage = response.data.message;
+                        this.updateUserPoints()
                         return;
                     }
 
