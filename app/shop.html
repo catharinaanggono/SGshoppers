@@ -34,142 +34,142 @@
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
+    <div id='app'>
+        <div id="preloder">
+            <div class="loader"></div>
+        </div>
 
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
+        <!-- Offcanvas Menu Begin -->
+        <div class="offcanvas-menu-overlay"></div>
+        <div class="offcanvas-menu-wrapper">
+            <div class="offcanvas__option">
+                <div class="offcanvas__links">
+                    <a href="#">Sign in</a>
+                    <a href="#">FAQs</a>
+                </div>
             </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
+            <div class="offcanvas__nav__option">
+                <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                <a href="#"><img src="img/icon/heart.png" alt=""></a>
+                <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+                <div class="price">$0.00</div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+            <div class="offcanvas__text">
+                <p>Free shipping, 30-day return or refund guarantee.</p>
             </div>
         </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-            <a href="#"><img src="img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
+        <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <a href="#">Sign in</a>
+        <!-- Header Section Begin -->
+        <header class="header">
+            <div class="header__top" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7">
+                            <div class="header__top__left">
+                                <p>Free shipping, 30-day return or refund guarantee.</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop.html">Shop</a></li>
-                            <li><a href="./rewards.html">Rewards</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
-    </header>
-    <!-- Header Section End -->
 
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__text">
-                        <h4>Shop</h4>
-                        <div class="breadcrumb__links">
-                            <a href="./index.html">Home</a>
-                            <span>Shop</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
-
-    <!-- Shop Section Begin -->
-    <section class="shop spad">
-        <div class="container" id="app">
-            <div class="row">
-                <div class="col">
-                    <div class="shop__sidebar">
-                        <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search..." id='search_field' v-on:keyup.enter="searchProduct">
-                                <button type="submit"><span class="icon_search" v-on:click='searchProduct'></span></button>
-                            </form>
-                        </div>
-                        
-                        </div>
-                    </div>
-                </div>
-                <div class='row'>
-                    <div class="col">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-6" v-for="product in products_list">
-                                <div class="product__item">
-                                    <div class="product__item__pic" v-bind:style='"background-image: url("+product.image+")"' v-on:click='redirectPage(product.id)'> 
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6>{{product.name}}</h6>
-                                        <h5>${{product.price}}</h5>
-                                    </div>
+                        <div class="col-lg-6 col-md-5">
+                            <div class="header__top__right">
+                                <div class="header__top__hover">
+                                    <span> {{name}} <i class="arrow_carrot-down"></i></span>
+                                    <ul>
+                                        <li><a href="./order.html">Order</a></li>
+                                        <li><a href="./logout.html">Log Out</a></li>
+                                    </ul>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
-                
             </div>
-        </div>
-    </section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__logo">
+                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li><a href="./index.html">Home</a></li>
+                                <li class="active"><a href="./shop.html">Shop</a></li>
+                                <li><a href="./rewards.html">Rewards</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__nav__option">
+                            <a href="./shopping-cart.html"><img src="img/icon/cart.png" alt=""> <span>{{cart_length}}</span></a>
+                            <div class="price">$ {{cart_total}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="canvas__open"><i class="fa fa-bars"></i></div>
+            </div>
+        </header>
+        <!-- Header Section End -->
+
+        <!-- Breadcrumb Section Begin -->
+        <section class="breadcrumb-option">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb__text">
+                            <h4>Shop</h4>
+                            <div class="breadcrumb__links">
+                                <a href="./index.html">Home</a>
+                                <span>Shop</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Breadcrumb Section End -->
+
+        <!-- Shop Section Begin -->
+        <section class="shop spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="shop__sidebar">
+                            <div class="shop__sidebar__search">
+                                <form action="#">
+                                    <input type="text" placeholder="Search..." id='search_field' v-on:keyup.enter="searchProduct">
+                                    <button type="submit"><span class="icon_search" v-on:click='searchProduct'></span></button>
+                                </form>
+                            </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-sm-6" v-for="product in products_list">
+                                    <div class="product__item">
+                                        <div class="product__item__pic" v-bind:style='"background-image: url("+product.image+")"' v-on:click='redirectPage(product.id)'> 
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6>{{product.name}}</h6>
+                                            <h5>${{product.price}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>    
+    </div>
+    <!-- Page Preloder -->
+
     <!-- Shop Section End -->
 
     <!-- Footer Section Begin -->
@@ -255,6 +255,11 @@
             el: "#app",
             data: {
                 products_list: [],
+                //displayUser: false,
+                name: "",
+                cart_length: 0,
+                cart: [],
+                cart_total: 0
             },
             created: function(){
                 url = PRODUCT_HOST + "/api/product"
@@ -278,6 +283,30 @@
                 })
             },
             methods: {
+                init() {
+                    // check if cookie exist
+                    this.name = getCookie("name")
+                    // if (this.name != "") {
+                    //     this.displayUser = true;
+                    // }
+                    console.log(this.name);
+                },
+                getSess(){
+                    if(localStorage.getItem("cart") != null){
+                        this.cart_length = JSON.parse(localStorage.getItem("cart")).length;
+
+                        this.cart = this.cart = JSON.parse(localStorage.getItem("cart"));
+
+                        let total = 0;
+                        for(item of this.cart){
+                            total += item.price
+                        }
+
+                        this.cart_total = total;
+                        console.log(this.cart_total)
+                    }
+                },
+
                 searchProduct: function(){
                     keyword = document.getElementById("search_field").value
                     console.log(keyword)
@@ -305,6 +334,10 @@
                 redirectPage(id){
                     window.location.href='shop-details.html?id='+id
                 }
+            },
+            mounted(){
+                this.init();
+                this.getSess();
             }
         });
     </script>

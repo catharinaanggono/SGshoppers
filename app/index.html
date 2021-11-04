@@ -52,20 +52,12 @@
                         <li><a href="./logout.html">Log Out</a></li>
                     </ul>
                 </div>
-                <div class="offcanvas__top__hover">
-                    <span>Usd <i class="arrow_carrot-down"></i></span>
-                    <ul>
-                        <li>USD</li>
-                        <li>EUR</li>
-                        <li>USD</li>
-                    </ul>
-                </div>
             </div>
             <div class="offcanvas__nav__option">
                 <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
                 <a href="#"><img src="img/icon/heart.png" alt=""></a>
-                <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-                <div class="price">$0.00</div>
+                <a href="#"><img src="img/icon/cart.png" alt=""> <span> {{cart_length}}</span></a>
+                <div class="price">$ {{cart_total}}</div>
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__text">
@@ -115,13 +107,14 @@
                             <ul>
                                 <li class="active"><a href="./index.html">Home</a></li>
                                 <li><a href="./shop.html">Shop</a></li>
+                                <li><a href="./rewards.html">Rewards</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3 col-md-3">
                         <div class="header__nav__option">
-                            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-                            <div class="price">$0.00</div>
+                            <a href="./shopping-cart.html"><img src="img/icon/cart.png" alt=""> <span>{{cart_length}}</span></a>
+                            <div class="price">$ {{cart_total}}</div>
                         </div>
                     </div>
                 </div>
@@ -166,12 +159,6 @@
                                         unwavering
                                         commitment to exceptional quality.</p>
                                     <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                    <div class="hero__social">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -326,9 +313,12 @@
         data: {
             displayUser: false,
             name: "",
+            cart_length: 0,
+            cart_total: 0
         },
         mounted() {
             this.init();
+            this.getSess();
         },
         methods: {
             init() {
@@ -338,6 +328,23 @@
                     this.displayUser = true;
                 }
             },
+            getSess(){
+                    if(localStorage.getItem("cart") != null){
+                        this.cart_length = JSON.parse(localStorage.getItem("cart")).length;
+
+                        this.cart = this.cart = JSON.parse(localStorage.getItem("cart"));
+
+                        let total = 0;
+                        for(item of this.cart){
+                            total += item.price
+                        }
+
+                        this.cart_total = total;
+
+                        console.log(this.cart_total)
+                        console.log(this.cart_length)
+                    }
+                }
         }
     });
 </script>

@@ -32,257 +32,211 @@
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
+    <div id="app">
+        <!-- Page Preloder -->
+        <div id="preloder">
+            <div class="loader"></div>
+        </div>
 
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__option">
-            <div class="offcanvas__links">
-                <a href="#">Sign in</a>
-                <a href="#">FAQs</a>
+        <!-- Header Section Begin -->
+        <header class="header">
+            <div class="header__top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7">
+                            <div class="header__top__left">
+                                <p>Free shipping, 30-day return or refund guarantee.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5">
+                            <div class="header__top__right">
+                                <div class="header__top__hover">
+                                    <span> {{user_name}} <i class="arrow_carrot-down"></i></span>
+                                    <ul>
+                                        <li><a href="./order.html">Order</a></li>
+                                        <li><a href="./logout.html">Log Out</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas__nav__option">
-            <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-            <a href="#"><img src="img/icon/heart.png" alt=""></a>
-            <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
-        </div>
-    </div>
-    <!-- Offcanvas Menu End -->
-
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__logo">
+                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <a href="#">Sign in</a>
-                                <a href="#">FAQs</a>
-                            </div>
-                            <div class="header__top__hover">
-                                <span>Usd <i class="arrow_carrot-down"></i></span>
-                                <ul>
-                                    <li>USD</li>
-                                    <li>EUR</li>
-                                    <li>USD</li>
-                                </ul>
-                            </div>
+                    <div class="col-lg-6 col-md-6">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li><a href="./index.html">Home</a></li>
+                                <li><a href="./shop.html">Shop</a></li>
+                                <li class="active"><a href="./rewards.html">Rewards</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="header__nav__option"> 
+                            <a href="./shopping-cart.html"><img src="img/icon/cart.png" alt=""> <span>{{cart_length}}</span></a>
+                            <div class="price">$ {{cart_total}}</div>
                         </div>
                     </div>
                 </div>
+                <div class="canvas__open"><i class="fa fa-bars"></i></div>
             </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li><a href="./shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="active"><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
-    </header>
-    <!-- Header Section End -->
+        </header>
+        <!-- Header Section End -->
 
-    <!-- Breadcrumb Section Begin -->
-<div id="app">
-    <section class="breadcrumb-blog set-bg" data-setbg="img/breadcrumb-bg.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2>Current Points: {{ points }}</h2>
+        <!-- Breadcrumb Section Begin -->
+
+        <section class="breadcrumb-blog set-bg" data-setbg="img/breadcrumb-bg.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>Current Points: {{ points }}</h2>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+        </section>
+        <!-- Breadcrumb Section End -->
 
 
-    <!-- Blog Section Begin -->
-    <section class="blog spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="mx-auto text-center">
-                            <div class="p-5">
-                                <h1>$2</h1>
+        <!-- Blog Section Begin -->
+        <section class="blog spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="mx-auto text-center">
+                                <div class="p-5">
+                                    <h1>$2</h1>
+                                </div>
                             </div>
-                        </div>
-                        <div class="blog__item__text">
-                            <span>Voucher</span>
-                            <h5>200 Points</h5>
-                            <div v-if="points > 200">
-                                <a href="#" @click="redeemPoints(2);">Redeem Points</a>
-                            </div>
-                            <div v-else>
-                                <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="mx-auto text-center">
-                            <div class="p-5">
-                                <h1>$5</h1>
-                            </div>
-                        </div>
-                        <div class="blog__item__text">
-                            <span>Voucher</span>
-                            <h5>450 Points</h5>
-                            <div v-if="points > 450">
-                                <a href="#" @click="redeemPoints(5);">Redeem Points</a>
-                            </div>
-                            <div v-else>
-                                <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
+                            <div class="blog__item__text">
+                                <span>Voucher</span>
+                                <h5>200 Points</h5>
+                                <div v-if="points > 200">
+                                    <a href="#" @click="redeemPoints(2);">Redeem Points</a>
+                                </div>
+                                <div v-else>
+                                    <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="mx-auto text-center">
-                            <div class="p-5">
-                                <h1>$10</h1>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="mx-auto text-center">
+                                <div class="p-5">
+                                    <h1>$5</h1>
+                                </div>
+                            </div>
+                            <div class="blog__item__text">
+                                <span>Voucher</span>
+                                <h5>450 Points</h5>
+                                <div v-if="points > 450">
+                                    <a href="#" @click="redeemPoints(5);">Redeem Points</a>
+                                </div>
+                                <div v-else>
+                                    <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
+                                </div>
                             </div>
                         </div>
-                        <div class="blog__item__text">
-                            <span>Voucher</span>
-                            <h5>850 Points</h5>
-                            <div v-if="points > 850">
-                                <a href="#" @click="redeemPoints(10);">Redeem Points</a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="mx-auto text-center">
+                                <div class="p-5">
+                                    <h1>$10</h1>
+                                </div>
                             </div>
-                            <div v-else>
-                                <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
+                            <div class="blog__item__text">
+                                <span>Voucher</span>
+                                <h5>850 Points</h5>
+                                <div v-if="points > 850">
+                                    <a href="#" @click="redeemPoints(10);">Redeem Points</a>
+                                </div>
+                                <div v-else>
+                                    <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
-    <!-- Blog Section End -->
+        </section>
 
-    <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+        <!-- Blog Section End -->
+
+        <!-- Footer Section Begin -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer__about">
+                            <div class="footer__logo">
+                                <a href="#"><img src="img/footer-logo.png" alt=""></a>
+                            </div>
+                            <p>The customer is at the heart of our unique business model, which includes design.</p>
+                            <a href="#"><img src="img/payment.png" alt=""></a>
                         </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
+                    </div>
+                    <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>Shopping</h6>
+                            <ul>
+                                <li><a href="#">Clothing Store</a></li>
+                                <li><a href="#">Trending Shoes</a></li>
+                                <li><a href="#">Accessories</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>Shopping</h6>
+                            <ul>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Delivary</a></li>
+                                <li><a href="#">Return & Exchanges</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+                        <div class="footer__widget">
+                            <h6>NewLetter</h6>
+                            <div class="footer__newslatter">
+                                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                                <form action="#">
+                                    <input type="text" placeholder="Your email">
+                                    <button type="submit"><span class="icon_mail_alt"></span></button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>NewLetter</h6>
-                        <div class="footer__newslatter">
-                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                            <form action="#">
-                                <input type="text" placeholder="Your email">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="footer__copyright__text">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <p>Copyright ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>2020
+                                All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                    aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            </p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer Section End -->
+        </footer>
+    </div>
 
     <!-- Search Begin -->
     <div class="search-model">
@@ -316,11 +270,15 @@
             points: "",
             errorMessage: "",
             displayError: false,
-            redeemSuccess: false
+            redeemSuccess: false,
+            cart_length: 0,
+            cart_total: 0,
+            user_name: ""
         },
         mounted() {
             this.init();
             this.getPoints();
+            this.getSess();
         },
         methods: {
             init() {
@@ -330,7 +288,28 @@
                     this.displayUser = true;
                 }
                 // this.getPoints();
+
+                this.user_name = getCookie("name")
+                    if (this.user_name != "") {
+                    }
             },
+            getSess(){
+                    if(localStorage.getItem("cart") != null){
+                        this.cart_length = JSON.parse(localStorage.getItem("cart")).length;
+
+                        this.cart = this.cart = JSON.parse(localStorage.getItem("cart"));
+
+                        let total = 0;
+                        for(item of this.cart){
+                            total += item.price
+                        }
+
+                        this.cart_total = total;
+
+                        console.log(this.cart_total)
+                        console.log(this.cart_length)
+                    }
+                },
             async getPoints() {
                 try {
                     console.log("TESTTTT")
