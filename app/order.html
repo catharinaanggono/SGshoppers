@@ -28,16 +28,35 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Custom JavaScript -->
     <script src="./js/autoload.js"></script>
-    <!--===============================================================================================-->
 </head>
 
 <body>
-    <div id="app">
-        <!-- Page Preloder -->
+    <div id='app'>
         <div id="preloder">
             <div class="loader"></div>
         </div>
-
+    
+        <!-- Offcanvas Menu Begin -->
+        <div class="offcanvas-menu-overlay"></div>
+        <div class="offcanvas-menu-wrapper">
+            <div class="offcanvas__option">
+                <div class="offcanvas__links">
+                    <a href="#">Sign in</a>
+                </div>
+            </div>
+            <div class="offcanvas__nav__option">
+                <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+                <a href="#"><img src="img/icon/heart.png" alt=""></a>
+                <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+                <div class="price">$0.00</div>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+            <div class="offcanvas__text">
+                <p>Free shipping, 30-day return or refund guarantee.</p>
+            </div>
+        </div>
+        <!-- Offcanvas Menu End -->
+    
         <!-- Header Section Begin -->
         <header class="header">
             <div class="header__top">
@@ -74,14 +93,14 @@
                             <ul>
                                 <li><a href="./index.html">Home</a></li>
                                 <li><a href="./shop.html">Shop</a></li>
-                                <li class="active"><a href="./rewards.html">Rewards</a></li>
+                                <li><a href="./rewards.html">Rewards</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3 col-md-3">
-                        <div class="header__nav__option"> 
-                            <a href="./shopping-cart.html"><img src="img/icon/cart.png" alt=""> <span>{{cart_length}}</span></a>
-                            <div class="price">$ {{cart_total}}</div>
+                        <div class="header__nav__option">
+                            <a href="#"><img src="img/icon/cart.png" alt=""> <span> {{cart_length}}</span></a>
+                            <div class="price">$ {{total}}</div>
                         </div>
                     </div>
                 </div>
@@ -89,88 +108,56 @@
             </div>
         </header>
         <!-- Header Section End -->
-
+    
         <!-- Breadcrumb Section Begin -->
-
-        <section class="breadcrumb-blog set-bg" data-setbg="img/breadcrumb-bg.jpg">
+        <section class="breadcrumb-option">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Current Points: {{ points }}</h2>
+                        <div class="breadcrumb__text">
+                            <h4>Order</h4>
+                            <div class="breadcrumb__links">
+                                <a href="./index.html">Home</a>
+                                <span>Order</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
         <!-- Breadcrumb Section End -->
-
-
-        <!-- Blog Section Begin -->
-        <section class="blog spad">
+    
+        <!-- Shopping Cart Section Begin -->
+        <section class="shopping-cart spad" id="app">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="blog__item">
-                            <div class="mx-auto text-center">
-                                <div class="p-5">
-                                    <h1>$2</h1>
-                                </div>
-                            </div>
-                            <div class="blog__item__text">
-                                <span>Voucher</span>
-                                <h5>200 Points</h5>
-                                <div v-if="points > 200">
-                                    <a href="#" @click="redeemPoints(2);">Redeem Points</a>
-                                </div>
-                                <div v-else>
-                                    <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="blog__item">
-                            <div class="mx-auto text-center">
-                                <div class="p-5">
-                                    <h1>$5</h1>
-                                </div>
-                            </div>
-                            <div class="blog__item__text">
-                                <span>Voucher</span>
-                                <h5>450 Points</h5>
-                                <div v-if="points > 450">
-                                    <a href="#" @click="redeemPoints(5);">Redeem Points</a>
-                                </div>
-                                <div v-else>
-                                    <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="blog__item">
-                            <div class="mx-auto text-center">
-                                <div class="p-5">
-                                    <h1>$10</h1>
-                                </div>
-                            </div>
-                            <div class="blog__item__text">
-                                <span>Voucher</span>
-                                <h5>850 Points</h5>
-                                <div v-if="points > 850">
-                                    <a href="#" @click="redeemPoints(10);">Redeem Points</a>
-                                </div>
-                                <div v-else>
-                                    <h5 style="color: indianred; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Insufficient Points</h4>
-                                </div>
-                            </div>
+                    <div class="col-lg-8">
+                        <div class="shopping__cart__table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order Id</th>
+                                        <th>Total Amount</th>
+                                        <th>Deliery Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody v-for='item in cart'>
+                                    <tr>
+                                        <td class="quantity__item">
+                                            {{item.id}}
+                                        </td>
+                                        <td class="quantity__item">{{item.total_amount}}</td>
+                                        <td class="quantity__item">{{item.delivery_status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Blog Section End -->
-
+        <!-- Shopping Cart Section End -->
+    
         <!-- Footer Section Begin -->
         <footer class="footer">
             <div class="container">
@@ -236,18 +223,21 @@
                 </div>
             </div>
         </footer>
-    </div>
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
+        <!-- Footer Section End -->
+    
+        <!-- Search Begin -->
+        <div class="search-model">
+            <div class="h-100 d-flex align-items-center justify-content-center">
+                <div class="search-close-switch">+</div>
+                <form class="search-model-form">
+                    <input type="text" id="search-input" placeholder="Search here.....">
+                </form>
+            </div>
         </div>
+        <!-- Search End -->
+    
     </div>
-    <!-- Search End -->
+    <!-- Page Preloder -->
 
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -260,40 +250,36 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-</body>
-<script>
-    new Vue({
-        el: "#app",
-        data: {
-            displayUser: false,
-            userId: "",
-            points: "",
-            errorMessage: "",
-            displayError: false,
-            redeemSuccess: false,
-            cart_length: 0,
-            cart_total: 0,
-            user_name: ""
-        },
-        mounted() {
-            this.init();
-            this.getPoints();
-            this.getSess();
-        },
-        methods: {
-            init() {
-                // check if cookie exist
-                this.userId = getCookie("userId")
-                if (this.userId != "") {
-                    this.displayUser = true;
-                }
-                // this.getPoints();
 
-                this.user_name = getCookie("name")
-                    if (this.user_name != "") {
-                    }
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                cart: [{ "id": 1, "quantity": 10, "price": 2 }],
+                customer_id: '',
+                order_id: 1,
+                total_amount: 20,
+                delivery_status: 'Pending',
+                errorMessage: "",
+                displayError: false,
+                displayUser: false,
+                name: "",
+                user_name: "",
+                total: 0,
+                cart_length: 0
             },
-            getSess(){
+            mounted() {
+                this.init();
+                this.getInvoices();
+                this.getSess()
+            },
+            methods: {
+                init() {
+                    this.user_name = getCookie("name")
+                    this.customer_id = getCookie("userId")
+                    console.log(this.customer_id);
+                },
+                getSess(){
                     if(localStorage.getItem("cart") != null){
                         this.cart_length = JSON.parse(localStorage.getItem("cart")).length;
 
@@ -304,108 +290,40 @@
                             total += item.price
                         }
 
-                        this.cart_total = total;
+                        this.total = total;
 
-                        console.log(this.cart_total)
+                        console.log(this.total)
                         console.log(this.cart_length)
                     }
                 },
-            async getPoints() {
-                try {
-                    console.log("TESTTTT")
-                    url = USER_HOST + `/api/user/${this.userId}/points`;
+                async getInvoices() {
+                    try {
+                        url = "http://localhost:5003/api/invoices/" + this.customer_id;
 
-                    const response = await axios.get(url);
+                        const response = await axios.get(url);
 
-                    const status = response.data.status;
-                    if (status == "error") {
-                        this.displayError = true
-                        this.errorMessage = response.data.message;
-                        return;
-                    }
-                    this.points = response.data.data.points;
-                    console.log("@@@@@@@@@@@@@@")
-                    console.log(this.points)
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
-                    return;
-                }
-            },
-            async updateUserPoints() {
-                try {
-                    url = USER_HOST + `/api/user/${this.userId}/points`;
-                    userData = {
-                        points: this.points
-                    }
-
-                    const response = await axios.patch(url, userData);
-
-                    const code = response.data.code;
-                    const status = response.data.status;
-                    if (status == "error") {
-                        this.displayError = true
-                        this.errorMessage = response.data.message;
-                        return;
-                    }
-
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
-                    return;
-                }
-            },
-            async redeemPoints(value) {
-                try {
-                    url = REWARD_HOST + "/api/purchase_voucher";
-                    redeemData = {
-                        user_id: this.userId,
-                        value: value,
-                        quantity: 1
-                    }
-
-                    const response = await axios.post(url, redeemData);
-
-                    const code = response.data.code;
-                    if (code == 200) {
-                        this.redeemSuccess = true
-                        if (value == 2) {
-                            this.points -= 200
-                        } else if (value == 5) {
-                            this.points -= 450
-                        } else {
-                            this.points -= 850
+                        const status = response.data.status;
+                        if (status == "error") {
+                            console.log(response.data.message);
+                            return;
                         }
-                        this.updateUserPoints()
+                        this.cart = response.data.data.invoices;
+
+                    } catch (error) {
+                        if (error.response) {
+                            this.displayError = true
+                            this.errorMessage = error.response.data.message;
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log("Error", error.message);
+                        }
                         return;
                     }
-
-                } catch (error) {
-                    if (error.response) {
-                        this.displayError = true
-                        this.errorMessage = error.response.data.message;
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log("Error", error.message);
-                    }
-                    return;
                 }
-            }
-        },
-    });
-</script>
+            },
+        });
+    </script>
+</body>
 
 </html>
