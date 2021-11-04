@@ -49,8 +49,17 @@
                         </div>
                         <div class="col-lg-6 col-md-5">
                             <div class="header__top__right">
-                                <div class="header__top__links">
-                                    <a href="#">{{user_name}}</a>
+                                <div class="header__top__links" v-if="displayUser === false">
+                                    <a href="./login.html">Sign in</a>
+                                </div>
+                                <div class="header__top__hover" v-else>
+                                    <span>{{user_name}} <i class="arrow_carrot-down"></i></span>
+                                    <ul>
+                                        <li><a href="./order.html">Order</a></li>
+                                        <li><a href="./logout.html">Log Out</a></li>
+                                    </ul>
+                                </div>
+                                <div class="header__top__hover">
                                 </div>
                             </div>
                         </div>
