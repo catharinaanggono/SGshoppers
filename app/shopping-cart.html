@@ -186,7 +186,7 @@
                                                 <ul>
                                                     <li>Value <span>$ {{ voucher.value }}</span></li>
                                                     <li>Quantity <span>{{ voucher.quantity }}</span></li>
-                                                    <li><button type="button" @click="select(voucher.value)">Use</button></li>
+                                                    <li><button type="button" @click="select(voucher.value); useRewards();">Use</button></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -310,11 +310,68 @@
             vouchers: [],
             cart_length: 0,
             alert_show: false,
-            user_name: ""
+            user_name: "",
+            points: 0
         },
         methods: {
             init() {
                     this.user_name = getCookie("name")
+            },
+            async getPoints() {
+                try {
+                    console.log("TESTTTT")
+                    url = USER_HOST + `/api/user/${this.customer_id}/points`;
+
+                    const response = await axios.get(url);
+
+                    const status = response.data.status;
+                    if (status == "error") {
+                        this.displayError = true
+                        this.errorMessage = response.data.message;
+                        return;
+                    }
+                    this.points = response.data.data.points;
+                } catch (error) {
+                    if (error.response) {
+                        this.displayError = true
+                        this.errorMessage = error.response.data.message;
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log("Error", error.message);
+                    }
+                    return;
+                }
+            },
+            async updateUserPoints() {
+                try {
+                    url = USER_HOST + `/api/user/${this.customer_id}/points`;
+                    userData = {
+                        points: this.points
+                    }
+
+                    const response = await axios.patch(url, userData);
+
+                    const code = response.data.code;
+                    const status = response.data.status;
+                    console.log(this.points);
+                    if (status == "error") {
+                        this.displayError = true
+                        this.errorMessage = response.data.message;
+                        return;
+                    }
+
+                } catch (error) {
+                    if (error.response) {
+                        this.displayError = true
+                        this.errorMessage = error.response.data.message;
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log("Error", error.message);
+                    }
+                    return;
+                }
             },
             async createOrder() {
                 url = ORDER_HOST + "/api/create_order";
@@ -328,13 +385,16 @@
                 const response = await axios.post(url, orderData);
 
                 const status = response.data.status;
+                //const code = response.data.code;
+                console.log(status);
                 if (status == "error") {
                     console.log(response.data.message);
                     return;
                 }
-
-                else {
+                else if(status == "success"){
                     this.alert_show = true;
+                    this.points = (this.total_amount * 10) + this.points
+                    this.updateUserPoints()
                 }
 
             },
@@ -398,13 +458,14 @@
             },
             select(value){
                 this.discountValue = value;
-            }
+            },
         },
         mounted() {
             this.getSess();
             this.getTotalAmount();
             this.getCustomerID();
             this.init();
+            this.getPoints();
         },
     });
     </script>

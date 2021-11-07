@@ -1,8 +1,25 @@
-const HOST = "http://localhost";
-const USER_HOST = HOST + ":5000";
-const ORDER_HOST = HOST + ":5003";
-const PRODUCT_HOST = HOST + ":5001";
-const REWARD_HOST = HOST + ":5002";
+var PRODUCTION = false;
+var HOST = '';
+var USER_HOST = '';
+var ORDER_HOST = '';
+var PRODUCT_HOST = '';
+var REWARD_HOST = '';
+
+if (PRODUCTION) {
+  HOST = "https://ui4we1cjuj.execute-api.us-east-1.amazonaws.com";
+  USER_HOST = HOST;
+  ORDER_HOST = HOST;
+  PRODUCT_HOST = HOST;
+  REWARD_HOST = HOST;
+}
+
+else{
+  HOST = "http://localhost";
+  USER_HOST = HOST + ":5000";
+  ORDER_HOST = HOST + ":5003";
+  PRODUCT_HOST = HOST + ":5001";
+  REWARD_HOST = HOST + ":5002";
+}
 
 // Function to create the cookie
 function createCookie(name, value, days) {
