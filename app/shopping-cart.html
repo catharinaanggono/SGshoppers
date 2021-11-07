@@ -186,7 +186,7 @@
                                                 <ul>
                                                     <li>Value <span>$ {{ voucher.value }}</span></li>
                                                     <li>Quantity <span>{{ voucher.quantity }}</span></li>
-                                                    <li><button type="button" @click="select(voucher.value)">Use</button></li>
+                                                    <li><button type="button" @click="select(voucher.value); useRewards();">Use</button></li>
                                                 </ul>
                                             </div>
                                         </div>
