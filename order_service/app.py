@@ -9,12 +9,6 @@ from flask_cors import CORS
 
 import boto3
 
-session = boto3.Session(
-aws_access_key_id="ASIA5WJPPFT5I3F7M6O7",
-aws_secret_access_key="U6/Ly63lWw/+lsqo3e5e7J/W4TKTRbJ3ufh8E5KS",
-aws_session_token="FwoGZXIvYXdzED0aDHumROGz2vXEuk4NGyLGAQQxs7Qbox/1u0GkMm4K67suF5sSotL2b7EYxdaXcTUig5m9flQ9wx0NwcNjhGGZZr8/FIIUZqGCja3hKDhFxAF3HijbZ4fTfFG2E2z+XEEg4BcxnSFtLeP26nnmQ5NJnDGLcAy4a3X0/Ynw8WaYmBvZyV8AMUIJXhXfNcgPuOEXh1RzEiTqChJF3/RXyKWTmqqKn2iUQf05uEddJeb+P5bULfWok2S5KS8BRekxga/xEF0doC+AhRPTehow8Qj2Jv6nkaizHCjDxKmMBjItVsaMjzoYYizf2q00HDDIDiZEwxNgC4c56ZPWCAiJGDs4Fp/O6YjUlB2YGobA"
-)
-
 from datetime import datetime
 
 app = Flask(__name__)
