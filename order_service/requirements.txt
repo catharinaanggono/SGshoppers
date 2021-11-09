@@ -11,3 +11,4 @@ SQLAlchemy==1.4.22
 autopep8==1.5.4
 flake8==3.9.2
 black==21.9b0
+boto3==1.19.12
