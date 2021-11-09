@@ -4,7 +4,16 @@ from flask import Flask, jsonify, request, make_response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from flask_migrate import Migrate
+
 from flask_cors import CORS
+
+import boto3
+
+session = boto3.Session(
+aws_access_key_id="ASIA5WJPPFT5I3F7M6O7",
+aws_secret_access_key="U6/Ly63lWw/+lsqo3e5e7J/W4TKTRbJ3ufh8E5KS",
+aws_session_token="FwoGZXIvYXdzED0aDHumROGz2vXEuk4NGyLGAQQxs7Qbox/1u0GkMm4K67suF5sSotL2b7EYxdaXcTUig5m9flQ9wx0NwcNjhGGZZr8/FIIUZqGCja3hKDhFxAF3HijbZ4fTfFG2E2z+XEEg4BcxnSFtLeP26nnmQ5NJnDGLcAy4a3X0/Ynw8WaYmBvZyV8AMUIJXhXfNcgPuOEXh1RzEiTqChJF3/RXyKWTmqqKn2iUQf05uEddJeb+P5bULfWok2S5KS8BRekxga/xEF0doC+AhRPTehow8Qj2Jv6nkaizHCjDxKmMBjItVsaMjzoYYizf2q00HDDIDiZEwxNgC4c56ZPWCAiJGDs4Fp/O6YjUlB2YGobA"
+)
 
 from datetime import datetime
 
@@ -15,11 +24,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 CORS(app)
-
-# -> POST order
-# -> PATCH delivery status
-# -> GET by OrderID
-
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -114,11 +118,6 @@ def create_order():
     customer_id = order_data["customer_id"]
     total_amount = order_data["total_amount"]
 
-    # total_cost calculated in FE, pass over
-    # total = 0
-    # for c_list in cart:
-    #     product_price = c_list['unit_price']
-    #     total += product_price
     invoice = Order_invoice(None, total_amount, customer_id, "Pending")
 
     try:
@@ -201,6 +200,7 @@ def update_delivery_status(id):
 
     try:
         db.session.commit()
+        publish_text_message("+6596529122", "Your order has been delivered. Thank you and have a greay day! :)")
         response = make_response(jsonify({"status": "success", "data": invoice.json()}))
     except:
         db.session.rollback()
@@ -217,3 +217,18 @@ def update_delivery_status(id):
 
     response.headers["Content-Type"] = "application/json"
     return response
+
+def publish_text_message(phone_number, message):
+    session = boto3.Session(
+        aws_access_key_id="ASIA5WJPPFT5LK3H2DUS",
+        aws_secret_access_key="MZt0l3rSxsagd154tCqZ3gQnFEwasGgy86k/azpj",
+        aws_session_token="FwoGZXIvYXdzED8aDF6+Erb6fwtE9YvGwyLGARLhIFXe0JxkALvcKsZIT1er3K8IweDPmtpaGNHI3eZDusW6hS38p5bO1xvSfJCVKGgDS1EMDiOCJ4evtVW36gt81He3Vi7TVOAa6UKN7G8JGk1IVNnbO2TXYKfTE2Zsbkhr6gm1wmzSk1iBXCd3Gy4PiV13KMNCxyDEJzHLFg145JlpOlBB665338Xkpvc10P9OVix7buyz7NAEUDKsx1gHQCwqke/itu2Qj4WMnYQUigym6YFGE5imzGOBowehrQq+Z8QQAijV7qmMBjIt8KFXWuxBcOUq0HKpc7BHD07AQY91jHwnlVJLGQ6Cfm5SHwuZqxOzZburRaHp",
+        region_name='us-east-1'
+    )
+
+    sns = session.resource("sns")
+    response = sns.meta.client.publish(
+        PhoneNumber=phone_number, Message=message)
+    message_id = response['MessageId']
+
+    return message_id
