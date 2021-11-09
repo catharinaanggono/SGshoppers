@@ -247,7 +247,8 @@
                 },
                 async getInvoices() {
                     try {
-                        url = "http://localhost:5003/api/invoices";
+                        url = ORDER_HOST + "/api/invoices";
+                        //url = "http://localhost:5003/api/invoices";
 
                         const response = await axios.get(url);
 
