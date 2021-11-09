@@ -4,11 +4,13 @@ from flask import Flask, jsonify, request, make_response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from flask_migrate import Migrate
-
 from flask_cors import CORS
 
+<<<<<<< HEAD
 import boto3
 
+=======
+>>>>>>> parent of 4ac3bb3 (Add SNS boto3 codes)
 from datetime import datetime
 
 app = Flask(__name__)
@@ -18,6 +20,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 CORS(app)
+
+# -> POST order
+# -> PATCH delivery status
+# -> GET by OrderID
+
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -112,6 +119,11 @@ def create_order():
     customer_id = order_data["customer_id"]
     total_amount = order_data["total_amount"]
 
+    # total_cost calculated in FE, pass over
+    # total = 0
+    # for c_list in cart:
+    #     product_price = c_list['unit_price']
+    #     total += product_price
     invoice = Order_invoice(None, total_amount, customer_id, "Pending")
 
     try:
@@ -194,7 +206,6 @@ def update_delivery_status(id):
 
     try:
         db.session.commit()
-        publish_text_message("+6596529122", "Your order has been delivered. Thank you and have a greay day! :)")
         response = make_response(jsonify({"status": "success", "data": invoice.json()}))
     except:
         db.session.rollback()
@@ -211,18 +222,3 @@ def update_delivery_status(id):
 
     response.headers["Content-Type"] = "application/json"
     return response
-
-def publish_text_message(phone_number, message):
-    session = boto3.Session(
-        aws_access_key_id="ASIA5WJPPFT5LK3H2DUS",
-        aws_secret_access_key="MZt0l3rSxsagd154tCqZ3gQnFEwasGgy86k/azpj",
-        aws_session_token="FwoGZXIvYXdzED8aDF6+Erb6fwtE9YvGwyLGARLhIFXe0JxkALvcKsZIT1er3K8IweDPmtpaGNHI3eZDusW6hS38p5bO1xvSfJCVKGgDS1EMDiOCJ4evtVW36gt81He3Vi7TVOAa6UKN7G8JGk1IVNnbO2TXYKfTE2Zsbkhr6gm1wmzSk1iBXCd3Gy4PiV13KMNCxyDEJzHLFg145JlpOlBB665338Xkpvc10P9OVix7buyz7NAEUDKsx1gHQCwqke/itu2Qj4WMnYQUigym6YFGE5imzGOBowehrQq+Z8QQAijV7qmMBjIt8KFXWuxBcOUq0HKpc7BHD07AQY91jHwnlVJLGQ6Cfm5SHwuZqxOzZburRaHp",
-        region_name='us-east-1'
-    )
-
-    sns = session.resource("sns")
-    response = sns.meta.client.publish(
-        PhoneNumber=phone_number, Message=message)
-    message_id = response['MessageId']
-
-    return message_id
