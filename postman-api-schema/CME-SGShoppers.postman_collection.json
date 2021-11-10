@@ -281,7 +281,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:5001/api/product_search/jacket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"product_search",
+								"jacket"
+							]
 						}
 					},
 					"response": []
