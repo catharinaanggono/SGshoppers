@@ -143,7 +143,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "http://localhost:5002/api/vouchers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5002",
+							"path": [
+								"api",
+								"vouchers",
+								"1"
+							]
 						}
 					},
 					"response": []
