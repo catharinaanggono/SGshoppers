@@ -78,13 +78,13 @@
                             <ul>
                                 <li><a href="./index.html">Home</a></li>
                                 <li class="active"><a href="./shop.html">Shop</a></li>
-                                <li><a href="./shop.html">Rewards</a></li>
+                                <li><a href="./rewards.html">Rewards</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3 col-md-3">
                         <div class="header__nav__option">
-                            <a href="#"><img src="img/icon/cart.png" alt=""> <span>{{cart_length}}</span></a>
+                            <a href="./shopping-cart.html"><img src="img/icon/cart.png" alt=""> <span>{{cart_length}}</span></a>
                             <div class="price">$ {{total_amount}}</div>
                         </div>
                     </div>
@@ -319,18 +319,19 @@
             },
             async getPoints() {
                 try {
-                    console.log("TESTTTT")
                     url = USER_HOST + `/api/user/${this.customer_id}/points`;
 
                     const response = await axios.get(url);
 
                     const status = response.data.status;
+                    console.log("getPoints Status: ",status);
                     if (status == "error") {
                         this.displayError = true
                         this.errorMessage = response.data.message;
                         return;
                     }
                     this.points = response.data.data.points;
+                    console.log("getPoints Points: ", this.points);
                 } catch (error) {
                     if (error.response) {
                         this.displayError = true
@@ -352,9 +353,9 @@
 
                     const response = await axios.patch(url, userData);
 
-                    const code = response.data.code;
                     const status = response.data.status;
-                    console.log(this.points);
+                    console.log("updateUserPoints Status: ", status);
+                    console.log("updateUserPoints Points: ", this.points);
                     if (status == "error") {
                         this.displayError = true
                         this.errorMessage = response.data.message;
@@ -385,8 +386,7 @@
                 const response = await axios.post(url, orderData);
 
                 const status = response.data.status;
-                //const code = response.data.code;
-                console.log(status);
+                console.log("createOrder Status: ", status);
                 if (status == "error") {
                     console.log(response.data.message);
                     return;
@@ -394,7 +394,9 @@
                 else if(status == "success"){
                     this.alert_show = true;
                     this.points = (this.total_amount * 10) + this.points
+                    console.log("Create Order Points: ", this.points);
                     this.updateUserPoints()
+                    console.log("One line after this.updateUserPoints");
                 }
 
             },
