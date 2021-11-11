@@ -203,7 +203,6 @@ def update_delivery_status(id):
     try:
         db.session.commit()
         response = make_response(jsonify({"status": "success", "data": invoice.json()}))
-        publish_text_message("+6585913469", "Your order has been delivered. Thank you and have a greay day! :)")
     except:
         db.session.rollback()
         response = make_response(
@@ -219,18 +218,3 @@ def update_delivery_status(id):
 
     response.headers["Content-Type"] = "application/json"
     return response
-
-def publish_text_message(phone_number, message):
-
-    session = boto3.Session(
-        aws_access_key_id="ASIAYL6LTZOU53KZKBUO",
-        aws_secret_access_key="ityXlUyj/zOp/xfKCCFKHktdMlCBJwICHkVI5FPT",
-        aws_session_token="FwoGZXIvYXdzEFAaDO17FwABxXDCGBTozCLOASC9AWYC+2g5mRPL416LmHRW5fiO0gmJQImAqcxvXBRK0cNjNhEJ9DPkcC6i6Ze1wKUhadTMTJSGa2sfoHoXUVjSeWgnole08LFI4Akds6JR58ZnLHwjaQPkDFGLhOleCU5E6iw7HQvQE1MaekMh4jHv1Rt3GF4P853VCTM7oGRpACTFxngmJjTjaAtpqSARQpmdrgnVLRJuvPHpje9UIZcycQRTQy9ibDoMwCBqBD3GYdt2tbm00OxqJAbSOr3rH4fe5x/Kh6NLpjyE71aQKNHKrYwGMi0kFGwa8rITRmoNlDFzN/8PmTKbxELYt07SQwDEEBavrvKgAiBOY6qf/s6Ua5E=",
-        region_name='us-east-1'
-    )
-
-    sns = session.resource("sns")
-    response = sns.meta.client.publish(
-        PhoneNumber=phone_number, Message=message)
-    message_id = response['MessageId']
-    return message_id

@@ -276,6 +276,36 @@
                         return;
                     }
                 },
+                async sendSMS() {
+                    try {
+                        url = "https://n3y2djpqok.execute-api.us-east-1.amazonaws.com/prod/sendSMS?phone_number=+6585913469&message=Your order has been delivered. Thank you and have a greay day! :)";
+
+                        const response = await axios.get(url);
+
+                        const status = response.data.status;
+                        if (status == "error") {
+                            // this.displayError = true
+                            // this.errorMessage = response.data.message;
+                            console.log(response.data.message);
+                            return;
+                        }
+                        // console.log(response.data);
+                        //console.log(response.data.data.invoices);
+                        this.cart = response.data.data.invoices;
+                        //console.log(this.cart);
+
+                    } catch (error) {
+                        if (error.response) {
+                            this.displayError = true
+                            this.errorMessage = error.response.data.message;
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log("Error", error.message);
+                        }
+                        return;
+                    }
+                },
                 async updateStatus(order_id) {
                     try {
 
@@ -298,6 +328,7 @@
                             return;
                         }
                         console.log(response.data);
+                        this.sendSMS();
 
                     } catch (error) {
                         if (error.response) {
